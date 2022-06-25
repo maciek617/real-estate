@@ -9,8 +9,11 @@ module.exports = {
       colors: {
         'bg-mobile': 'rgba(0,0,0,0.8)'
       },
+      backgroundColor: {
+        'white-scroll': 'rgba(255, 255, 255, .95)'
+      },
       height: {
-        'vh': '90vh',
+        'vh': '100vh',
       },
       minHeight: {
         'mn': '112px',

@@ -1,6 +1,7 @@
 <template>
   <nav
-      class="flex z-50 justify-between p-5 lg:py-0 xl:px-10  lg:h-20 fixed w-full">
+      class="flex z-50 justify-between p-5 lg:py-0 xl:px-10  lg:h-20 fixed w-full transition transition-"
+      :class="isScrolled ? 'bg-white-scroll' : ''">
     <NavTitle/>
     <NavLinks :class="isVisible ? 'visible' : ''"/>
     <NavOptions/>
@@ -22,8 +23,12 @@ export default {
   setup() {
     const isVisible = ref(null);
     const checkVisibility = (n) => isVisible.value = n;
+    const isScrolled = ref(false);
 
-    return {isVisible, checkVisibility}
+    const checkIfScrolled = () => window.scrollY > 0 ? isScrolled.value = true : isScrolled.value = false
+    window.addEventListener('scroll', checkIfScrolled)
+
+    return {isVisible, checkVisibility, isScrolled}
   }
 }
 </script>

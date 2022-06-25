@@ -1,6 +1,6 @@
 <template>
   <MainNav/>
-  <router-view class="mt-4"/>
+  <router-view/>
 </template>
 <script>
 import MainNav from "@/components/navigation/MainNav";

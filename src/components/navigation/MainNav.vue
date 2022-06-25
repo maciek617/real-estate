@@ -1,5 +1,6 @@
 <template>
-  <nav class="flex justify-between xl:px-10">
+  <nav
+      class="flex z-50 justify-between p-5 lg:py-0 xl:px-10  lg:h-20 fixed w-full">
     <NavTitle/>
     <NavLinks :class="isVisible ? 'visible' : ''"/>
     <NavOptions/>

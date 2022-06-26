@@ -7,10 +7,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'bg-mobile': 'rgba(0,0,0,0.8)'
+        'bg-mobile': 'rgba(0,0,0,0.9)'
       },
       backgroundColor: {
         'white-scroll': 'rgba(255, 255, 255, .95)'
+      },
+      backgroundImage: {
+        'hero-img': 'linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(../assets/buildings/house_2.jpg);'
       },
       height: {
         'vh': '100vh',

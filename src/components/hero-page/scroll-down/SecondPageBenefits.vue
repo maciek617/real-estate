@@ -1,7 +1,7 @@
 <template>
   <div class="benefits sm:px-4 sm:flex sm:justify-center lg:mt-10">
     <img :src="require('../../../assets/buildings/house_3.jpg')" alt="luxury building"
-         class="max-w-xl w-full h-96 object-cover lg:h-full">
+         class="max-w-2xl w-full h-96 object-cover lg:h-full">
     <div class="benefits_info_wrapper m-4 lg:mx-10">
       <div class="benefit">
         <i

@@ -1,13 +1,13 @@
 <template>
   <div
       class="swiper_wrapper border-b-2 border-gray-500 max-w-screen-lg m-auto p-4 pb-10 mt-24 border-b-2 border-gray-500">
-    <swiper class="cursor-pointer"
+    <swiper class="cursor-grab"
             :modules="modules"
             :space-between="10"
             :loop="true"
             :pagination="{ clickable: true }"
             :autoplay="{
-              delay: 4000,
+              delay: 7000,
               disableOnInteraction: false,
               pauseOnMouseEnter: true
             }"

@@ -30,8 +30,9 @@
 </template>
 
 <script>
+
 export default {
-  name: "SecondPageBenefits"
+  name: "SecondPageBenefits",
 }
 </script>
 

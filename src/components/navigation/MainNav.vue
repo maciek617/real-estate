@@ -4,7 +4,7 @@
       :class="isScrolled ? 'bg-white-scroll' : ''">
     <NavTitle/>
     <NavLinks :class="isVisible ? 'visible' : ''"/>
-    <NavOptions/>
+    <NavOptions class="hidden"/>
     <NavMobile @show="checkVisibility"/>
   </nav>
 </template>

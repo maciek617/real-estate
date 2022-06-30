@@ -1,7 +1,6 @@
 <template>
-  <div class="nav_options hidden lg:block lg:relative lg:flex lg:items-center">
-    <p class="lg:mx-7">ENG</p>
-    <MainButton>Contact</MainButton>
+  <div class="nav_options lg:block mt-6 relative">
+    <MainButton class="text-white bg-black">Get Started</MainButton>
   </div>
 </template>
 

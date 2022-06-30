@@ -1,18 +1,19 @@
 <template>
-  <div class="customer_wrapper bg-cyan-50">
+  <div class="customer_wrapper bg-cyan-50 relative">
     <div class="customer_opinion max-w-screen-2xl m-auto mt-10">
       <h1 class="text-center p-4 font-bold text-2xl sm:text-3xl lg:text-4xl">What Our Customers Say About
         Us</h1>
       <div class="opinion_box mt-8 lg:mt-14">
         <img :src="currOpinion.img" alt="picture of client"
-             class="w-24 h-24 object-cover rounded-full block m-auto">
+             class="w-24 h-24 object-cover rounded-full block m-auto border-cyan-500 border-2">
         <p class="text-gray-500 text-center p-4 max-w-2xl m-auto block h-52 sm:h-40 lg:h-36">{{ currOpinion.opinion
           }}</p>
         <p class="text-center font-bold text-xl">{{ currOpinion.name }}</p>
       </div>
       <div class="pictures_box flex flex-wrap justify-center mt-6">
         <img :src="img.img" alt="profile picture of our customer" v-for="(img, i) in opinionBase" :key="img.id"
-             class="w-14 h-14 object-cover rounded-full m-4 cursor-pointer" :id="i" @click="getCurrOpinion">
+             class="w-14 h-14 object-cover rounded-full m-4 cursor-pointer" :id="i"
+             @click="getCurrOpinion">
       </div>
     </div>
   </div>
@@ -86,4 +87,91 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (min-width: 1024px) {
+  .pictures_box img:nth-child(1) {
+    position: absolute;
+    top: 17%;
+    left: 10%;
+  }
+
+  .pictures_box img:nth-child(2) {
+    position: absolute;
+    top: 35%;
+    left: 8%;
+  }
+
+  .pictures_box img:nth-child(3) {
+    position: absolute;
+    top: 53%;
+    left: 10%;
+  }
+
+  .pictures_box img:nth-child(4) {
+    position: absolute;
+    top: 17%;
+    right: 10%;
+  }
+
+  .pictures_box img:nth-child(5) {
+    position: absolute;
+    top: 35%;
+    right: 8%;
+  }
+
+  .pictures_box img:nth-child(6) {
+    position: absolute;
+    top: 53%;
+    right: 10%;
+  }
+}
+@media screen and (min-width: 1700px) {
+  .pictures_box img:nth-child(1) {
+    left: 22%;
+  }
+
+  .pictures_box img:nth-child(2) {
+    left: 20%;
+  }
+
+  .pictures_box img:nth-child(3) {
+    left: 22%;
+  }
+
+  .pictures_box img:nth-child(4) {
+    right: 22%;
+  }
+
+  .pictures_box img:nth-child(5) {
+    right: 20%;
+  }
+
+  .pictures_box img:nth-child(6) {
+    right: 22%;
+  }
+}
+@media screen and (min-width: 2200px) {
+  .pictures_box img:nth-child(1) {
+    left: 26%;
+  }
+
+  .pictures_box img:nth-child(2) {
+    left: 24%;
+  }
+
+  .pictures_box img:nth-child(3) {
+    left: 26%;
+  }
+
+  .pictures_box img:nth-child(4) {
+    right: 26%;
+  }
+
+  .pictures_box img:nth-child(5) {
+    right: 24%;
+  }
+
+  .pictures_box img:nth-child(6) {
+    right: 26%;
+  }
+}
 </style>

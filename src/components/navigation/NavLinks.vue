@@ -7,16 +7,18 @@
         link
       }}
     </router-link>
+    <NavOptions class="mt-48 lg:hidden"/>
   </div>
 </template>
 
 <script>
 import {ref} from "vue";
-
+import NavOptions from "@/components/navigation/NavOptions";
 export default {
   name: "NavLinks",
+  components: {NavOptions},
   setup() {
-    const linkBase = ref(['Home', 'Our Offices', 'Our Consultants', 'Open Office']);
+    const linkBase = ref(['Home', 'Find House', 'Our Consultants', 'Events']);
     return {linkBase}
   }
 }

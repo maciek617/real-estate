@@ -4,6 +4,7 @@
   <PopularResidences/>
   <QuoteView/>
   <HeroPageCustomers/>
+  <HeroPageLastSection/>
 </template>
 
 <script>
@@ -12,9 +13,10 @@ import HeroPageSecond from "@/components/hero-page/HeroPageSecond";
 import PopularResidences from "@/components/hero-page/scroll-down/PopularResidences";
 import QuoteView from "@/components/hero-page/scroll-down/QuoteView";
 import HeroPageCustomers from "@/components/hero-page/HeroPageCustomers";
+import HeroPageLastSection from "@/components/hero-page/scroll-down/HeroPageLastSection";
 export default {
   name: 'HomeView',
-  components: {HeroPageMain, HeroPageSecond, PopularResidences, QuoteView, HeroPageCustomers}
+  components: {HeroPageMain, HeroPageSecond, PopularResidences, QuoteView, HeroPageCustomers, HeroPageLastSection}
 }
 </script>
 

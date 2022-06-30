@@ -8,8 +8,8 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/our-offices',
-    name: 'our-offices',
+    path: '/find',
+    name: 'find-house',
     component: () => import('../views/OurOfficesView')
   },
   {
@@ -18,11 +18,10 @@ const routes = [
     component: () => import('../views/OurConsultantsView')
   },
   {
-    path: '/open-office',
-    name: 'open-office',
+    path: '/events',
+    name: 'events',
     component: () => import('../views/OpenOfficeView')
   },
-    // component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
 ]
 
 const router = createRouter({

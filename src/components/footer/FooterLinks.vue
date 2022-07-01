@@ -1,13 +1,23 @@
 <template>
   <div class="additional_links sm:flex sm:justify-around w-full max-w-4xl">
     <div class="additional_link mt-10" v-for="link in footerLinkBase" :key="link.title">
-      <p class="font-bold mb-4 lg:text-2xl">{{link.title}}</p>
-      <p class="text-gray-500 cursor-pointer mt-2">{{link.link1}}</p>
-      <p class="text-gray-500 cursor-pointer mt-2">{{link.link2}}</p>
-      <p class="text-gray-500 cursor-pointer mt-2">{{link.link3}}</p>
-      <p class="text-gray-500 cursor-pointer mt-2">{{link.link4}}</p>
-      <p class="text-gray-500 cursor-pointer mt-2">{{link.link5}}</p>
-      <p class="text-gray-500 cursor-pointer mt-2">{{link.link6}}</p>
+      <p class="font-bold mb-4 lg:text-2xl">{{ link.title }}</p>
+
+      <router-link :to="{name: link.link1.toLowerCase()}">
+        <p class="text-gray-500 cursor-pointer mt-2">{{ link.link1 }}</p>
+      </router-link>
+      <router-link :to="{name: link.link2.toLowerCase()}">
+        <p class="text-gray-500 cursor-pointer mt-2">{{ link.link2 }}</p>
+      </router-link>
+      <router-link :to="{name: link.link3.toLowerCase()}">
+        <p class="text-gray-500 cursor-pointer mt-2">{{ link.link3 }}</p>
+      </router-link>
+      <router-link :to="{name: link.link4.toLowerCase()}">
+        <p class="text-gray-500 cursor-pointer mt-2">{{ link.link4 }}</p>
+      </router-link>
+      <router-link :to="{name: link.link5.toLowerCase()}">
+        <p class="text-gray-500 cursor-pointer mt-2">{{ link.link5 }}</p>
+      </router-link>
     </div>
   </div>
 </template>
@@ -24,16 +34,16 @@ export default {
         link1: 'Download',
         link2: 'Location',
         link3: 'Services',
-        link4: 'Pricing'
+        link4: 'Pricing',
+        link5: 'Future'
       },
       {
         title: 'Community',
-        link1: 'Accessibility',
-        link2: 'Gift',
-        link3: 'Guest',
-        link4: 'About Us',
-        link5: 'Contact',
-        link6: 'Events'
+        link1: 'Gift',
+        link2: 'Guest',
+        link3: 'About',
+        link4: 'Contact',
+        link5: 'Events'
       },
       {
         title: 'About',

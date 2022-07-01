@@ -25,6 +25,7 @@ module.exports = {
             },
             height: {
                 'vh': '100vh',
+                '70': '75vh',
                 '256': '38rem'
             },
             minHeight: {

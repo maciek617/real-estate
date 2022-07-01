@@ -15,6 +15,7 @@ module.exports = {
             },
             backgroundColor: {
                 'white-scroll': 'rgba(255, 255, 255, .95)',
+                'cookies' : 'rgba(0,0,0,0.9)'
             },
             backgroundImage: {
                 'hero-img': 'linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),' +

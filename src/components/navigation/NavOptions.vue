@@ -1,6 +1,6 @@
 <template>
   <div class="nav_options lg:block mt-6 relative">
-    <MainButton class="text-white bg-black">Get Started</MainButton>
+    <MainButton class="text-black bg-white lg:text-white lg:bg-black">Get Started</MainButton>
   </div>
 </template>
 

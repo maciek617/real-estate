@@ -11,7 +11,7 @@
         Workers</span>
     </div>
     <div class="price flex items-center justify-between p-4">
-      <MainButton>Review Now</MainButton>
+      <MainButton class="text-white bg-black">Review Now</MainButton>
       <span class="font-bold">${{ residence.price }}</span>
     </div>
   </div>

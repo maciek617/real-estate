@@ -21,7 +21,7 @@
           <i class="fa-solid fa-wallet absolute left-36 top-1/2 -translate-y-1/2"></i>
         </div>
       </div>
-      <MainButton class="mx-4 my-2 lg:my-6">Search Now</MainButton>
+      <MainButton class="mx-4 my-2 text-white bg-black lg:my-6">Search Now</MainButton>
     </div>
   </div>
 </template>

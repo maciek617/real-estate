@@ -10,7 +10,7 @@
 import SecondPageBenefits from "@/components/hero-page/scroll-down/SecondPageBenefits";
 export default {
   name: "HeroPageSecond",
-  components: {SecondPageBenefits}
+  components: {SecondPageBenefits},
 }
 </script>
 

@@ -1,6 +1,12 @@
 <template>
   <MainNav/>
-  <router-view/>
+  <router-view v-slot="{Component, route}">
+    <transition name="route" mode="out-in">
+      <div :key="route.name">
+        <component :is="Component"></component>
+      </div>
+    </transition>
+  </router-view>
   <FooterView/>
   <CookiesInfo v-if="showCookies" @accepted="acceptCookies" @declined="declineCookies"/>
 </template>
@@ -10,8 +16,9 @@ import FooterView from "@/components/footer/FooterView";
 import CookiesInfo from "@/components/cookies/CookiesInfo";
 import {useCookies} from 'vue3-cookies';
 import {onMounted, ref} from 'vue';
+
 export default {
-  components: {MainNav, FooterView,CookiesInfo},
+  components: {MainNav, FooterView, CookiesInfo},
   setup() {
     const showCookies = ref(true);
     const {cookies} = useCookies()
@@ -34,3 +41,23 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.route-enter-from {
+  opacity: 0;
+  transform: translateX(100px);
+}
+
+.route-enter-active {
+  transition: all .2s ease-out;
+}
+
+.route-leave-to {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+.route-leave-active {
+  transition: all .2s ease-in;
+}
+</style>

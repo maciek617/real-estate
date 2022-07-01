@@ -1,6 +1,7 @@
 <template>
 <div class="residence_wrapper flex justify-around items-center flex-col mt-6 lg:flex-row max-w-screen-xl m-auto">
-  <div v-for="residence in residencesInfo" :key="residence.img" class="shadow-md mt-4 max-w-xs xl:max-w-lg">
+  <div v-for="residence in residencesInfo" :key="residence.img"
+       class=" residence -translate-x-10 shadow-md mt-4 max-w-xs xl:max-w-lg">
     <img :src="require('../../../' + residence.img)" alt="residence" class="max-w-sm w-full h-64 object-cover">
     <span class="block p-4 font-bold"><i class="fa-solid fa-location-dot mr-3"></i>{{
         residence.location }}</span>
@@ -21,11 +22,14 @@
 <script>
 import {ref} from "vue";
 import MainButton from "@/components/buttons/MainButton";
-
+import gsap from "gsap";
+import {ScrollTrigger} from 'gsap/ScrollTrigger'
+import {onMounted} from "vue";
 export default {
   name: "HeroResidences",
   components: {MainButton},
   setup() {
+    gsap.registerPlugin(ScrollTrigger);
     const residencesInfo = ref([
       {
         img: 'assets/buildings/house_5.jpg',
@@ -53,6 +57,22 @@ export default {
       },
     ])
 
+
+    onMounted(() => {
+      gsap.to('.residence', {
+        scrollTrigger: '.residence',
+        x: 0,
+      })
+      gsap.to('.residence:nth-child(2)', {
+        scrollTrigger: '.residence:nth-child(2)',
+        x: 0,
+      })
+      gsap.to('.residence:nth-child(3)', {
+        scrollTrigger: '.residence:nth-child(3)',
+        x: 0,
+      })
+
+    })
     return {residencesInfo}
   }
 }

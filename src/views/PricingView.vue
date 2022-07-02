@@ -1,10 +1,12 @@
 <template>
-<h1>pricing view</h1>
+<PricingMain/>
 </template>
 
 <script>
+import PricingMain from "@/components/pricing/PricingMain";
 export default {
-  name: "PricingView"
+  name: "PricingView",
+  components: {PricingMain}
 }
 </script>
 

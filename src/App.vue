@@ -29,7 +29,7 @@ export default {
     }
 
     const declineCookies = () => {
-      showCookies.value = false
+      showCookies.value = false;
     }
 
     onMounted(() => {

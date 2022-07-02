@@ -18,7 +18,7 @@ export default {
   name: "NavLinks",
   components: {NavOptions},
   setup() {
-    const linkBase = ref(['Home', 'Find House', 'Our Consultants', 'Events']);
+    const linkBase = ref(['Home', 'Find House', 'Pricing', 'Events']);
     return {linkBase}
   }
 }

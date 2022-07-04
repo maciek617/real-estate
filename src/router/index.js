@@ -20,7 +20,7 @@ const routes = [
   {
     path: '/events',
     name: 'events',
-    component: () => import('../views/OpenOfficeView')
+    component: () => import('../views/EventsView')
   },
   {
     path: '/download',

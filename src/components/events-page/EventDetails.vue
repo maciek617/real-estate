@@ -1,6 +1,6 @@
 <template>
   <div
-      class="bg-white-scroll w-60 pb-4 flex flex-col items-center justify-center relative -mt-20 z-50 m-auto shadow-2xl rounded-3xl sm:flex-row sm:w-full sm:max-w-screen-sm sm:justify-evenly lg:-mt-72 lg:max-w-screen-lg">
+      class="bg-white-scroll w-60 pb-4 flex flex-col items-center justify-center relative -mt-20 z-40 m-auto shadow-2xl rounded-3xl sm:flex-row sm:w-full sm:max-w-screen-sm sm:justify-evenly lg:-mt-72 lg:max-w-screen-lg">
     <div v-for="eventInfo in eventInfoBase" :key="eventInfo.title"
          class="border-b-2 py-5 sm:border-2 sm:flex sm:justify-between sm:flex-col sm:mx-2 sm:items-center sm:mt-3 sm:px-2 lg:px-8">
               <div class="flex items-center justify-center">

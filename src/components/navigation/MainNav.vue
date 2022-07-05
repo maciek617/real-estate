@@ -1,6 +1,6 @@
 <template>
   <nav
-      class="flex z-50 justify-between p-5 lg:py-0 xl:px-10  lg:h-20 fixed w-full transition drop-shadow"
+      class="flex z-50 justify-between  fixed top-0 left-0  p-5 lg:py-0 xl:px-10  lg:h-20 fixed w-full transition"
       :class="isScrolled ? 'bg-cyan-50' : ''">
     <NavTitle/>
     <NavLinks :class="isVisible ? 'visible' : ''"/>

@@ -8,9 +8,9 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/find',
+    path: '/app',
     name: 'find-house',
-    component: () => import('../views/OurOfficesView')
+    component: () => import('../views/FindHouse')
   },
   {
     path: '/our-consultants',

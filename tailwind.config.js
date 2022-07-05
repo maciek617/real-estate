@@ -34,6 +34,12 @@ module.exports = {
             minHeight: {
                 'mn': '112px',
             },
+            minWidth: {
+                term: '100px',
+            },
+            maxWidth: {
+              filterVw: '300px',
+            },
             fontSize: {
                 'very-large': '1.2rem'
             },

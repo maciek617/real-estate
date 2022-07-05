@@ -3,7 +3,7 @@
     <h1 class="font-bold text-3xl sm:text-4xl sm:pb-4 lg:text-5xl xl:text-6xl">Search for properties</h1>
     <div
         class="border-2 min-w-term max-w-filterVw rounded-xl py-2 px-4 mt-2 border-blue-600 flex justify-between items-center shadow cursor-pointer" @click="show = !show">
-      <p>Search by: <span class="ml-2 font-bold">{{selectTerm.term}}</span></p>
+      <p>Sort by: <span class="ml-2 font-bold">{{selectTerm.term}}</span></p>
       <i class="fa-solid fa-angle-down"></i>
     </div>
     <Transition>
@@ -27,19 +27,19 @@ export default {
     const show = ref(false);
     const searchTerms = ref([
       {
-        term: "Summerhouse",
+        term: "Low to high",
         selected: false,
       },
       {
-        term: "Apartment",
+        term: "High to low",
         selected: false,
       },
       {
-        term: "Mansion",
+        term: "Created date",
         selected: false,
       },
       {
-        term: "Plaza",
+        term: "Popular",
         selected: false,
       },
       {

@@ -20,3 +20,8 @@ a {
 table {
     font-family: 'Poppins', sans-serif;
 }
+
+.error {
+    color: crimson;
+    margin-top: 10px;
+}

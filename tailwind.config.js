@@ -15,7 +15,8 @@ module.exports = {
             },
             backgroundColor: {
                 'white-scroll': 'rgba(255, 255, 255, .95)',
-                'cookies' : 'rgba(0,0,0,0.9)'
+                'cookies': 'rgba(0,0,0,0.9)',
+                'modal': 'rgba(0,0,0,0.6)'
             },
             backgroundImage: {
                 'hero-img': 'linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),' +
@@ -27,18 +28,19 @@ module.exports = {
                 'vh': '100vh',
                 '70': '75vh',
                 '256': '38rem',
-                'mobile':'350px',
-                'tablet':'550px',
-                'desktop':'750px'
+                'mobile': '350px',
+                'tablet': '550px',
+                'desktop': '750px'
             },
             minHeight: {
                 'mn': '112px',
+                "ct": '62vh'
             },
             minWidth: {
                 term: '100px',
             },
             maxWidth: {
-              filterVw: '300px',
+                filterVw: '300px',
             },
             fontSize: {
                 'very-large': '1.2rem'

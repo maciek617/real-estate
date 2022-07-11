@@ -40,10 +40,12 @@ import MainButton from "@/components/buttons/MainButton";
 import {computed, reactive} from 'vue'
 import useVuelidate from '@vuelidate/core'
 import {required, email, minLength} from '@vuelidate/validators'
+import useLogin from "@/composables/useLogin";
 export default {
   name: "LoginView",
   components: {MainButton},
   setup() {
+    const {login, error, isPending} = useLogin()
     const state = reactive({
       email: '',
       password: ''
@@ -60,9 +62,11 @@ export default {
     const submitLoginForm = async () => {
       const isFormCorrect = await v$.value.$validate()
       if (!isFormCorrect) return;
+
+      await login(state.email, state.password)
     }
 
-    return {state, v$, submitLoginForm}
+    return {state, v$, submitLoginForm, error, isPending}
   }
 }
 </script>

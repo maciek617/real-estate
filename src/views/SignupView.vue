@@ -7,7 +7,7 @@
     <div class=" max-w-half w-full px-4 lg:h-70 lg:m-0 lg:pt-60">
       <h1 class="text-center text-3xl lg:text-5xl">Welcome to FindState!</h1>
       <p class="text-center text-gray-500">Please enter your details.</p>
-
+    <div class="test"></div>
       <form class="max-w-sm m-auto" @submit.prevent="submitSignupForm">
         <div class="flex flex-col items-start mt-7">
 
@@ -51,11 +51,12 @@ import MainButton from "@/components/buttons/MainButton";
 import useVuelidate from '@vuelidate/core'
 import {sameAs, required, email, minLength} from '@vuelidate/validators'
 import {computed, reactive} from "vue";
-
+import useSignup from "@/composables/useSignup";
 export default {
   name: "LoginView",
   components: {MainButton},
   setup() {
+    const {signup, isPending, error} = useSignup();
     const state = reactive({
       name: '',
       email: '',
@@ -78,10 +79,12 @@ export default {
     const submitSignupForm = async () => {
       const isFormCorrect = await v$.value.$validate()
       if (!isFormCorrect) return;
+
+      await signup(state.email, state.password.password, state.name)
     }
     const v$ = useVuelidate(rules, state)
 
-    return {state, v$, submitSignupForm}
+    return {state, v$, submitSignupForm, isPending, error}
   }
 }
 </script>

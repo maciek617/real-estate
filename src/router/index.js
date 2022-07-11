@@ -92,6 +92,16 @@ const routes = [
     name: 'news',
     component: () => import('../views/NewsView')
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/LoginView')
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('../views/SignupView')
+  },
 ]
 
 const router = createRouter({

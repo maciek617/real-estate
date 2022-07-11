@@ -37,10 +37,11 @@ module.exports = {
                 "ct": '62vh'
             },
             minWidth: {
-                term: '100px',
+                'term': '100px',
             },
             maxWidth: {
-                filterVw: '300px',
+                'filterVw': '300px',
+                'half' : '50vw'
             },
             fontSize: {
                 'very-large': '1.2rem'

@@ -6,7 +6,9 @@
       house?</h1>
     <p class="my-4 max-w-screen-sm 2xl:mt-10 2xl:text-very-large">It is now very easy to reach the
       house of your dream with FindState the house you are looking for very easily.</p>
-    <MainButton class="bg-white text-black">Get Started</MainButton>
+    <router-link :to="{name: 'signup'}">
+      <MainButton class="bg-white text-black">Get Started</MainButton>
+    </router-link>
   </div>
 </template>
 
@@ -15,7 +17,7 @@ import MainButton from "@/components/buttons/MainButton";
 
 export default {
   name: "HeroPageMainText",
-  components: {MainButton}
+  components: {MainButton},
 }
 </script>
 

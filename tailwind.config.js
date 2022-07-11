@@ -34,7 +34,8 @@ module.exports = {
             },
             minHeight: {
                 'mn': '112px',
-                "ct": '62vh'
+                "ct": '62vh',
+                "70vh": '70vh',
             },
             minWidth: {
                 'term': '100px',

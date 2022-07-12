@@ -4,10 +4,9 @@
       <i class="fa-solid fa-circle text-blue-500 text-5xl w-full text-center lg:text-9xl"></i>
       <div class="bg-gray-800 w-full h-7 blur absolute top-1/2 card lg:h-24"></div>
     </div>
-    <div class=" max-w-half w-full px-4 lg:h-70 lg:m-0 lg:pt-60">
+    <div class="w-full px-4 lg:h-70 lg:m-0 lg:pt-60">
       <h1 class="text-center text-3xl lg:text-5xl">Welcome to FindState!</h1>
       <p class="text-center text-gray-500">Please enter your details.</p>
-    <div class="test"></div>
       <form class="max-w-sm m-auto" @submit.prevent="submitSignupForm">
         <div class="flex flex-col items-start mt-7">
 
@@ -29,8 +28,9 @@
           <label class="mt-4">Confirm password<span class="text-blue-500">*</span></label>
           <input type="password" class="w-full p-2 rounded-xl bg-none border border-gray-500"
                  placeholder="Password" v-model="state.password.confirm" autocomplete="new-password">
-          <p v-if="v$.password.confirm.$error" class="error">{{ v$.password.confirm.$errors[0].$message}}</p>
+          <p v-if="v$.password.confirm.$error" class="error">{{ v$.password.confirm.$errors[0].$message }}</p>
         </div>
+        <p v-if="error" class="error w-full text-center">{{error}}</p>
         <MainButton class="bg-gray-900 text-white mt-5 w-full">Signup</MainButton>
         <MainButton
             class="bg-white text-black mt-5 w-full flex items-center justify-center py-0 px-0 h-10 border"><img
@@ -52,6 +52,7 @@ import useVuelidate from '@vuelidate/core'
 import {sameAs, required, email, minLength} from '@vuelidate/validators'
 import {computed, reactive} from "vue";
 import useSignup from "@/composables/useSignup";
+
 export default {
   name: "LoginView",
   components: {MainButton},

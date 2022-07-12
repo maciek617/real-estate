@@ -15,7 +15,6 @@ const login = async (email, password) => {
         if (!res) {
            error.value = "Something went wrong."
         }
-        console.log('User logged in')
 
         error.value = null;
         isPending.value = false;

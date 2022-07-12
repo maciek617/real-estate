@@ -7,6 +7,7 @@
       </div>
     </transition>
   </router-view>
+  <ScrollTopButon/>
   <FooterView/>
   <CookiesInfo v-if="showCookies" @accepted="acceptCookies" @declined="declineCookies"/>
 </template>
@@ -14,11 +15,12 @@
 import MainNav from "@/components/navigation/MainNav";
 import FooterView from "@/components/footer/FooterView";
 import CookiesInfo from "@/components/cookies/CookiesInfo";
+import ScrollTopButon from "@/components/buttons/ScrollTopButon";
 import {useCookies} from 'vue3-cookies';
 import {onMounted, ref} from 'vue';
 
 export default {
-  components: {MainNav, FooterView, CookiesInfo},
+  components: {MainNav, FooterView, CookiesInfo, ScrollTopButon},
   setup() {
     const showCookies = ref(true);
     const {cookies} = useCookies()

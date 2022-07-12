@@ -6,7 +6,7 @@
       house?</h1>
     <p class="my-4 max-w-screen-sm 2xl:mt-10 2xl:text-very-large">It is now very easy to reach the
       house of your dream with FindState the house you are looking for very easily.</p>
-    <router-link :to="{name: 'signup'}">
+    <router-link :to="user ? {name: 'find-house'} : {name: 'signup'}">
       <MainButton class="bg-white text-black">Get Started</MainButton>
     </router-link>
   </div>
@@ -14,10 +14,15 @@
 
 <script>
 import MainButton from "@/components/buttons/MainButton";
+import getUser from "@/composables/getUser";
 
 export default {
   name: "HeroPageMainText",
   components: {MainButton},
+  setup() {
+    const {user} = getUser();
+    return {user}
+  }
 }
 </script>
 

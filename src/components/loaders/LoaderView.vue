@@ -1,10 +1,10 @@
 <template>
-<h1>Colsdsada</h1>
+$END$
 </template>
 
 <script>
 export default {
-  name: "OurConsultantsView"
+name: "LoaderView"
 }
 </script>
 

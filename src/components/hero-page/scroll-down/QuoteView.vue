@@ -28,7 +28,7 @@ import {Pagination, Autoplay} from 'swiper'
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 export default {
   name: "QuoteView",
@@ -47,7 +47,9 @@ export default {
         author: 'Jeff Bezos',
         description: 'A man must physically protect his woman. But a woman must spiritually protect her man. She must bring positivity and joy.'
       },
-    ])
+    ]);
+
+    onMounted(() => console.log('mounted'))
 
     return {
       modules: [Pagination, Autoplay],

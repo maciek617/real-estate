@@ -14,7 +14,7 @@
     "core-js": "^3.8.3",
     "firebase": "^9.9.0",
     "gsap": "^3.10.4",
-    "swiper": "^8.2.5",
+    "swiper": "^8.3.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vue3-cookies": "^1.0.6",

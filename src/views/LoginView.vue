@@ -4,7 +4,7 @@
       <i class="fa-solid fa-circle text-blue-500 text-5xl w-full text-center lg:text-9xl"></i>
       <div class="bg-gray-800 w-full h-7 blur absolute top-1/2 card lg:h-24"></div>
     </div>
-    <div class="mx-4 w-full px-4 lg:h-70 lg:m-0 lg:pt-72">
+    <div class="mx-4 w-full px-4 lg:h-70 lg:m-0 lg:pt-52">
       <h1 class="text-center text-3xl lg:text-5xl">Welcome back</h1>
       <p class="text-center text-gray-500">Welcome back please enter your details.</p>
       <form class="max-w-sm m-auto" @submit.prevent="submitLoginForm">
@@ -41,11 +41,14 @@ import useVuelidate from '@vuelidate/core'
 import {required, email, minLength} from '@vuelidate/validators'
 import useLogin from "@/composables/useLogin";
 import {useRouter} from 'vue-router'
+import {useStore} from "vuex";
+
 export default {
   name: "LoginView",
   components: {MainButton},
   setup() {
     const router = useRouter()
+    const store = useStore()
     const {login, error, isPending} = useLogin()
     const state = reactive({
       email: '',
@@ -65,10 +68,14 @@ export default {
       if (!isFormCorrect) return;
 
       await login(state.email, state.password)
-      await router.push({name: 'find-house'})
+
+      if(error.value === '') {
+        await router.push({name: 'find-house'})
+      }
+
     }
 
-    return {state, v$, submitLoginForm, error, isPending}
+    return {state, v$, submitLoginForm, error, isPending, store}
   }
 }
 </script>

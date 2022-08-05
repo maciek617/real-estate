@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { auth } from "@/firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-const error = ref(null);
+const error = ref('');
 const isPending = ref(false);
 
 const login = async (email, password) => {
@@ -16,7 +16,7 @@ const login = async (email, password) => {
            error.value = "Something went wrong."
         }
 
-        error.value = null;
+        error.value = '';
         isPending.value = false;
     } catch (e) {
         const err = e.code.slice(5);

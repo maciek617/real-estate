@@ -28,7 +28,7 @@ import {Pagination, Autoplay} from 'swiper'
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import {onMounted, ref} from "vue";
+import { ref} from "vue";
 
 export default {
   name: "QuoteView",
@@ -49,7 +49,6 @@ export default {
       },
     ]);
 
-    onMounted(() => console.log('mounted'))
 
     return {
       modules: [Pagination, Autoplay],

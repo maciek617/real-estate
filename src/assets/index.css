@@ -25,3 +25,67 @@ table {
     color: crimson;
     margin-top: 10px;
 }
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: rgb(211, 228, 255) !important;
+}
+
+.swiper-button-prev {
+    background-color: rgba(0, 0, 0, .4) !important;
+    width: 70px !important;
+    height: 70px !important;
+    color: white !important;
+}
+
+.swiper-button-next {
+    background-color: rgba(0, 0, 0, .4) !important;
+    width: 70px !important;
+    height: 70px !important;
+    color: white !important;
+}
+
+.scroll-disabled {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+    position: absolute;
+}
+
+
+.expand-enter-active,
+.expand-leave-active {
+    transition: all 0.2s;
+    max-height: 290px;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+    opacity: 0;
+    max-height: 0px;
+}

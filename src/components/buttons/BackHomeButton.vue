@@ -1,6 +1,6 @@
 <template>
   <router-link to="/">
-    <MainButton>Back to home</MainButton>
+    <MainButton>Back to Home</MainButton>
   </router-link>
 </template>
 

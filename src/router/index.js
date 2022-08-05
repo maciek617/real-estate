@@ -15,9 +15,9 @@ const routes = [
         component: () => import('../views/FindHouse')
     },
     {
-        path: '/our-consultants',
-        name: 'our-consultants',
-        component: () => import('../views/OurConsultantsView')
+        path: '/:title/:id',
+        name: 'house',
+        component: () => import('../views/HouseView')
     },
     {
         path: '/events',
@@ -50,9 +50,9 @@ const routes = [
         component: () => import('../views/FutureView')
     },
     {
-        path: '/gift',
-        name: 'gift',
-        component: () => import('../views/GiftView')
+        path: '/newsletter',
+        name: 'newsletter',
+        component: () => import('../views/NewsletterView')
     },
     {
         path: '/guest',
@@ -107,7 +107,20 @@ const routes = [
     {
         path: '/profile/:user',
         name: 'profile',
-        component: () => import('../views/ProfileVIew'),
+        component: () => import('../views/ProfileVIew')
+    },
+    {
+        path: '/profile/edit',
+        name: 'edit-profile',
+        component: () => import('../views/ProfileViewEdit'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/app/create',
+        name: 'create-post',
+        component: () => import('../views/FindHouseAppCreatePost'),
         meta: {
             requiresAuth: true
         }

@@ -1,5 +1,5 @@
 <template>
-  <MainNav/>
+  <MainNav class="w-full"/>
   <router-view v-slot="{Component, route}">
     <transition name="route" mode="out-in">
       <div :key="route.name">
@@ -16,15 +16,20 @@ import MainNav from "@/components/navigation/MainNav";
 import FooterView from "@/components/footer/FooterView";
 import CookiesInfo from "@/components/cookies/CookiesInfo";
 import ScrollTopButon from "@/components/buttons/ScrollTopButon";
+import ToastModal from "@/components/modals/ToastModal";
 import {useCookies} from 'vue3-cookies';
-import {onMounted, ref} from 'vue';
+import {useStore} from "vuex";
+import {onMounted, ref, watchEffect} from 'vue';
+import {useRoute} from "vue-router";
+import scrollToTop from "@/composables/scrollTop";
 
 export default {
-  components: {MainNav, FooterView, CookiesInfo, ScrollTopButon},
+  components: {MainNav, FooterView, ScrollTopButon, ToastModal, CookiesInfo},
   setup() {
     const showCookies = ref(true);
+    const store = useStore()
     const {cookies} = useCookies()
-
+    const route = useRoute();
     const acceptCookies = () => {
       cookies.set("accept", "true");
       showCookies.value = false;
@@ -39,7 +44,14 @@ export default {
       cookie === "true" ? showCookies.value = false : ''
     })
 
-    return {cookies, showCookies, acceptCookies, declineCookies}
+    watchEffect(() => {
+      if (route.path) {
+        scrollToTop()
+      }
+    })
+
+
+    return {cookies, showCookies, acceptCookies, declineCookies, store}
   }
 }
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <div class="companies text-gray-500 text-center">
-    <i class="fa-brands fa-app-store-ios text-6xl m-4 lg:text-7xl cursor-pointer"></i>
-    <i class="fa-brands fa-facebook-square text-6xl m-4 lg:text-7xl cursor-pointer"></i>
-    <i class="fa-brands fa-twitter-square text-6xl m-4 lg:text-7xl cursor-pointer"></i>
-    <i class="fa-brands fa-instagram-square text-6xl m-4 lg:text-7xl cursor-pointer"></i>
+  <div class="companies text-gray-500 max-w-5xl m-auto text-center flex flex-col items-center justify-evenly sm:flex-row">
+    <img :src="require('../../../assets/companies-img/audi.svg')" alt="audi" class="max-w-comp" loading="lazy">
+    <img :src="require('../../../assets/companies-img/forbes.svg')" alt="forbes" class="max-w-comp" loading="lazy">
+    <img :src="require('../../../assets/companies-img/hugo.svg')" alt="hugo" class="max-w-comp" loading="lazy">
+    <img :src="require('../../../assets/companies-img/chanel.svg')" alt="channel" class="max-w-comp" loading="lazy">
   </div>
 </template>
 

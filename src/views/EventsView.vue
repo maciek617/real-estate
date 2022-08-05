@@ -8,7 +8,7 @@ export default {
   name: "OpenOfficeView",
   components: {
     EventsMain
-  }
+  },
 }
 </script>
 

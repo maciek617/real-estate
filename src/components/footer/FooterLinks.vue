@@ -39,7 +39,7 @@ export default {
       },
       {
         title: 'Community',
-        link1: 'Gift',
+        link1: 'Newsletter',
         link2: 'Guest',
         link3: 'About',
         link4: 'Contact',

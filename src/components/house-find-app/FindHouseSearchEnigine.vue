@@ -2,7 +2,7 @@
   <div class="bg-gray-100 mt-5 flex flex-col items-center sm:flex-row sm:justify-around sm:items-start sm:h-72">
     <div class="w-40 mt-4 border-b-2 pb-4 sm:border-b-0">
       <p>Location</p>
-      <input type="text" class="rounded shadow mt-2 p-2 w-40" placeholder="ex. New York">
+      <input type="text" class="rounded shadow mt-2 p-2 w-40" placeholder="ex. New York" v-model="locationSearch" @keyup="store.state.searchLocationTerm = locationSearch">
     </div>
     <div>
       <div class="w-40 mt-4 border-b-2 pb-4 sm:border-b-0">
@@ -13,7 +13,7 @@
         <div class="text-left bg-white w-40 shadow rounded -mt-3" v-if="priceShow">
           <p v-for="price in searchTermsPrice" :key="price" class="mt-2 hover:bg-blue-200 cursor-pointer px-4"
              @click="[chooseSearchTerms(searchTermsPrice, price), priceShow = false]">{{
-              price.term }}</p>
+              price.term }}$</p>
         </div>
       </Transition>
     </div>
@@ -32,37 +32,49 @@
       </Transition>
     </div>
   </div>
-  <MainButton class="bg-gray-900 text-white w-80 h-14 absolute left-1/2 mt-2 -translate-x-1/2 sm:-mt-7 ">Search</MainButton>
 
 </template>
 
 <script>
 import {ref, onMounted, watchEffect} from "vue";
 import useSelectChooseTerm from "@/composables/selectItems";
-import MainButton from "@/components/buttons/MainButton";
+import {useStore} from "vuex";
 
 export default {
   name: "FindHouseSearchEnigine",
-  components: {MainButton},
   setup() {
     const {selectedTerm, chooseSearchTerms} = useSelectChooseTerm();
+    const store = useStore()
     const priceShow = ref(false);
     const houseShow = ref(false);
+    const locationSearch = ref('')
     const searchTermsPrice = ref([
       {
-        term: ">50,000$",
+        term: "50000",
         selected: false,
       },
       {
-        term: ">100,00$",
+        term: "100000",
         selected: false,
       },
       {
-        term: ">150,00$",
+        term: "200000",
         selected: false,
       },
       {
-        term: "Unlimited",
+        term: "500000",
+        selected: false,
+      },
+      {
+        term: "1000000",
+        selected: false,
+      },
+      {
+        term: "10000000",
+        selected: true,
+      },
+      {
+        term: "100000000",
         selected: true,
       },
     ]);
@@ -90,9 +102,12 @@ export default {
       },
       {
         term: "House",
+        selected: false,
+      },
+      {
+        term: "All",
         selected: true,
       },
-
     ]);
 
     const price = ref('')
@@ -101,20 +116,25 @@ export default {
     onMounted(() => {
       price.value = selectedTerm(searchTermsPrice.value);
       house.value = selectedTerm(searchTermsHouse.value);
+
+      store.state.price = price.value;
+      store.state.propertyType = house.value
     });
 
     watchEffect(() => {
       if (searchTermsPrice.value) {
         price.value = selectedTerm(searchTermsPrice.value);
+        store.state.price = price.value;
       }
 
       if (searchTermsHouse.value) {
         house.value = selectedTerm(searchTermsHouse.value);
+        store.state.propertyType = house.value
       }
     })
 
 
-    return {priceShow, houseShow, searchTermsPrice, searchTermsHouse, chooseSearchTerms, price, house}
+    return {priceShow, houseShow, searchTermsPrice, searchTermsHouse, chooseSearchTerms, price, house, locationSearch, store}
   }
 }
 </script>

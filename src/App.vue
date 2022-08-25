@@ -30,6 +30,7 @@ export default {
     const store = useStore()
     const {cookies} = useCookies()
     const route = useRoute();
+
     const acceptCookies = () => {
       cookies.set("accept", "true");
       showCookies.value = false;

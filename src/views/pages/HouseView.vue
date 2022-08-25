@@ -2,13 +2,15 @@
   <div v-if="data" class="bg-gray-50">
     <div class="mt-20 px-4 max-w-7xl m-auto pt-4">
       <div>
-        <p class="text-gray-500">Added: {{ data.timestamp.toDate().toDateString() }}</p>
+        <p class="text-gray-500">Added: {{ data.timestamp ? data.timestamp.toDate().toDateString() : '' }}</p>
         <h1 class="text-3xl font-bold sm:text-4xl lg:text-5xl">{{ data.title }}</h1>
         <p class="text-gray-500 sm:text-xl">{{ data.location }}</p>
       </div>
       <div class="flex items-center justify-end">
         <div v-if="user">
-          <MainButton v-if="data.author.id === user.uid" class="bg-gray-900 text-white m-2" @click="copyLink"><i class="fa-solid fa-pen-to-square mr-2"></i>Edit</MainButton>
+          <router-link :to="{name: 'edit-post', params: {id: data.id}}">
+            <MainButton v-if="data.author.id === user.uid" class="bg-gray-900 text-white m-2"><i class="fa-solid fa-pen-to-square mr-2"></i>Edit</MainButton>
+          </router-link>
         </div>
         <MainButton class="bg-gray-900 text-white m-2" @click="copyLink"><i class="fa-solid fa-share-nodes mr-2"></i>Share</MainButton>
       </div>
@@ -19,14 +21,17 @@
       </div>
       <div class="mt-4 w-full">
         <div class="sm:flex items-start justify-center" v-show="load">
-          <img :src="data.images[0]" alt="main house photo" class="h-52 w-full sm:w-4/6 sm:h-tablet object-cover rounded-2xl shadow-2xl" @load="isLoaded(1)" loading="eager">
-          <div class="ml-3">
-            <img :src="data.images[1]" alt="main house photo" class="h-52 w-full sm:w-96 object-cover rounded-2xl shadow-2xl mt-2" @load="isLoaded(2)" loading="eager">
-            <img :src="data.images[2]" alt="main house photo" class="h-52 w-full sm:w-96 object-cover rounded-2xl shadow-2xl mt-3" @load="isLoaded(3)" loading="eager">
-            <p class="font-bold text-3xl text-center p-2 sm:mt-10">+{{data.images.length - 3}}</p>
+          <img :src="data.main_photo" alt="main house photo" class="h-52 w-full sm:w-4/6 sm:h-tablet object-cover rounded-2xl shadow-2xl" @load="isLoaded(1)" loading="eager">
+          <div class="ml-3" v-if="filteredImages">
+            <img :src="filteredImages[0]" alt="main house photo" class="h-52 w-full sm:w-96 object-cover rounded-2xl shadow-2xl mt-2" @load="isLoaded(2)" loading="eager">
+            <img :src="filteredImages[1]" alt="main house photo" class="h-52 w-full sm:w-96 object-cover rounded-2xl shadow-2xl mt-3" @load="isLoaded(3)" loading="eager">
+            <p class="font-bold text-3xl text-center p-2 sm:mt-10">+{{ data.images.length - 3 }}</p>
           </div>
         </div>
         <MainButton class="text-white bg-gray-900 mt-5 lg:mt-10 disabled:cursor-not-allowed" :disabled="!load" @click="showGallery = true">Show full gallery</MainButton>
+        <router-link :to="{name: 'profile', params: {user: data.author.id}}">
+          <MainButton class="text-white bg-gray-900 mt-5 lg:mt-10 ml-4 disabled:cursor-not-allowed">Seller's profile</MainButton>
+        </router-link>
         <ImagesGalleryModal v-if="showGallery" :images="data.images" @closeGallery="showGallery = false"/>
         <div v-if="!load">
           <LoaderView/>
@@ -71,18 +76,22 @@
       <div class="flex justify-around w-full flex-col sm:flex-row">
         <div class="mt-8 bg-white shadow rounded-2xl p-4 max-w-lg w-full">
           <p class="text-3xl font-bold mb-4">Additional information</p>
-          <p class="text-xl italic"><i class="fa-solid fa-house-chimney-window mr-2"></i>Balcony: <span class="not-italic font-bold ml-2">{{ !data.additional_info.balcony ? 'No' : 'Yes' }}</span></p>
-          <p class="text-xl italic"><i class="fa-solid fa-building-wheat mr-2"></i>Garden: <span class="not-italic font-bold ml-2">{{ !data.additional_info.garden ? 'No' : 'Yes' }}</span></p>
-          <p class="text-xl italic"><i class="fa-solid fa-square-parking mr-2"></i>Parking space: <span class="not-italic font-bold ml-2">{{ !data.additional_info.parking ? 'No' : 'Yes' }}</span></p>
+          <p class="text-xl italic"><i class="fa-solid fa-house-chimney-window w-8"></i>Balcony:
+            <span class="not-italic font-bold ml-2 underline">{{ !data.additional_info.balcony ? 'No' : 'Yes' }}</span></p>
+          <p class="text-xl italic"><i class="fa-solid fa-building-wheat w-8"></i>Garden: <span class="not-italic font-bold ml-2 underline">{{ !data.additional_info.garden ? 'No' : 'Yes' }}</span></p>
+          <p class="text-xl italic"><i class="fa-solid fa-square-parking w-8"></i>Parking space: <span class="not-italic font-bold ml-2 underline">{{ !data.additional_info.parking ? 'No' : 'Yes'
+            }}</span></p>
+          <p class="text-xl italic"><i class="fa-solid fa-house-lock w-8"></i>State: <span class="not-italic font-bold ml-2 underline">{{ data.quality }}</span></p>
         </div>
 
 
-        <div class="mt-8 bg-white shadow rounded-2xl p-4 max-w-lg w-full">
+        <div class="mt-8 bg-white shadow rounded-2xl p-4   max-w-lg w-full">
           <p class="text-3xl font-bold mb-2">Contact Info</p>
-          <p class="text-lg"><i class="fa-solid fa-user"></i><span class="ml-4">{{ data.contact_details.name }}</span></p>
-          <p class="text-lg"><i class="fa-solid fa-envelope"></i><a :href="'mailto:' + data.contact_details.email" class="ml-4">{{ data.contact_details.email }}</a></p>
-          <p class="text-lg"><i class="fa-solid fa-phone"></i><a :href="'tel:' + data.contact_details.phone" class="ml-4"> {{ data.contact_details.phone.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-              " ") }}</a></p>
+          <p class="text-xl pt-3"><i class="fa-solid fa-user w-8"></i>{{ data.contact_details.name }}</p>
+          <p class="text-xl pt-3"><i class="fa-solid fa-envelope w-8"></i><a :href="'mailto:' + data.contact_details.email">{{ data.contact_details.email }}</a></p>
+          <p class="text-xl pt-3"><i class="fa-solid fa-phone w-8"></i><a :href="'tel:' + data.contact_details.phone"> {{
+              data.contact_details.phone.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                  " ") }}</a></p>
           <router-link :to="{name: 'profile', params: {user: data.author.id}}"></router-link>
         </div>
       </div>
@@ -112,7 +121,7 @@
 
 import useGetSingleHouse from "@/composables/getSingleHouse";
 import MainButton from "@/components/buttons/MainButton";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {computed, onMounted, ref, watch} from "vue";
 import LoaderView from "@/components/loaders/LoaderView";
 import ToastModal from "@/components/modals/ToastModal";
@@ -123,19 +132,26 @@ import {defineAsyncComponent} from "vue";
 
 export default {
   name: "HouseView",
-  components: {MainButton, LoaderView, ToastModal, MortageView, ImagesGalleryModal: defineAsyncComponent(() => import('../components/modals/ImagesGalleryModal.vue'))},
+  components: {MainButton, LoaderView, ToastModal, MortageView, ImagesGalleryModal: defineAsyncComponent(() => import('@/components/modals/ImagesGalleryModal.vue'))},
   setup() {
     const {error, data, getSingleHouse} = useGetSingleHouse();
     const route = useRoute();
-    const load = ref(false)
+    const router = useRouter();
+    const load = ref(false);
     const store = useStore();
     const {user} = getUser();
     const loadedImages = ref([]);
     const showGallery = ref(false);
+    const filteredImages = ref();
 
-    onMounted(() => {
-      getSingleHouse('posts', route.params.id);
+    const deleteMainPhotoFromImages = () => {
+      filteredImages.value = data.value.images.filter(image => image !== data.value.main_photo)
+    }
 
+
+    onMounted(async () => {
+      await getSingleHouse('posts', route.params.id);
+      error.value !== '' ? await router.push({name: 'not-found'}) : deleteMainPhotoFromImages()
     })
 
     const priceWithCommas = computed(() => {
@@ -162,7 +178,7 @@ export default {
         }
     )
 
-    return {error, data, priceWithCommas, load, isLoaded, copyLink, user, showGallery}
+    return {error, data, priceWithCommas, load, isLoaded, copyLink, user, showGallery, filteredImages}
   }
 }
 </script>

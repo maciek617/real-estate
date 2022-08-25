@@ -29,8 +29,8 @@
       <p class="font-bold text-xl">Job title</p>
       <input type="text" class="bg-gray-50 w-full max-w-sm p-1 shadow border-blue-600 border-2 mt-2 rounded" v-model="data.jobTitle.title">
       <div class="absolute -left-20 top-22  mt-2 sm:top-20  sm:left-1/2 sm:-translate-x-1/2 ml-8 w-full sm:ml-10">
-        <input type="checkbox" v-model="data.jobTitle.display" class="mr-2">
-        <label class="w-full">Show job title on profile.</label>
+        <input type="checkbox" v-model="data.jobTitle.display" class="mr-2" id="showJob">
+        <label class="w-full" for="showJob">Show job title on profile.</label>
       </div>
     </div>
     <div class="mt-4 pb-5 border-b bg-white p-4 rounded-2xl shadow-xl text-center max-w-2xl m-auto sm:border-0 sm:flex sm:items-start sm:justify-between">
@@ -75,7 +75,6 @@ import MainButton from "@/components/buttons/MainButton";
 import useUpdateDocument from "@/composables/updateDoc"
 import {useRouter} from "vue-router";
 import ConfirmDeleteUserModal from "@/components/modals/ConfirmDeleteUserModal";
-import {useStore} from "vuex";
 
 export default {
   name: "ProfileViewEdit",
@@ -86,7 +85,6 @@ export default {
     const {updateDocument, isPending} = useUpdateDocument()
     const router = useRouter();
     const modalShow = ref(false);
-    const store = useStore();
 
     onMounted(() => getUserInfo(user.value.uid))
 
@@ -102,7 +100,10 @@ export default {
       router.push({name: 'profile', params: {user: user.value.uid}})
     }
 
-    return {data, isPending, update, cancelUpdate, modalShow, toggleToastModal: () => store.commit('toggleToastModal'), store}
+
+
+
+    return {data, isPending, update, cancelUpdate, modalShow}
 
   }
 }

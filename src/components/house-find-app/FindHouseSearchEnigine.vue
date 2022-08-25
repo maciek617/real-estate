@@ -1,33 +1,40 @@
 <template>
-  <div class="bg-gray-100 mt-5 flex flex-col items-center sm:flex-row sm:justify-around sm:items-start sm:h-72">
-    <div class="w-40 mt-4 border-b-2 pb-4 sm:border-b-0">
-      <p>Location</p>
-      <input type="text" class="rounded shadow mt-2 p-2 w-40" placeholder="ex. New York" v-model="locationSearch" @keyup="store.state.searchLocationTerm = locationSearch">
+
+  <div class="bg-gray-100 mt-5 flex flex-col items-center rounded shadow sm:flex-row sm:justify-around sm:items-start sm:h-32">
+    <div class="w-52 mt-4 border-b-2 pb-4 sm:border-b-0">
+      <p class="lg:text-xl">Location</p>
+      <input type="text"
+             class="rounded shadow mt-2 p-2 w-52"
+             placeholder="ex. New York"
+             v-model="locationSearch"
+             @keyup="store.state.searchLocationTerm = locationSearch">
     </div>
     <div>
-      <div class="w-40 mt-4 border-b-2 pb-4 sm:border-b-0">
-        <p @click="priceShow = !priceShow" class="cursor-pointer">Price <i class="fa-solid fa-angle-down ml-24"></i></p>
-        <p class="font-bold text-blue-500">{{ price.term }}</p>
+      <div class="w-52 mt-4 border-b-2 pb-4 sm:border-b-0">
+        <p class="lg:text-xl">Price</p>
+        <input type="number"
+               class="rounded shadow mt-2 p-2 w-52"
+               placeholder="100000$"
+               v-model="price"
+               @keyup="store.state.price = price === '' ? 1000000000 : price ">
+
       </div>
-      <Transition>
-        <div class="text-left bg-white w-40 shadow rounded -mt-3" v-if="priceShow">
-          <p v-for="price in searchTermsPrice" :key="price" class="mt-2 hover:bg-blue-200 cursor-pointer px-4"
-             @click="[chooseSearchTerms(searchTermsPrice, price), priceShow = false]">{{
-              price.term }}$</p>
-        </div>
-      </Transition>
     </div>
     <div>
-      <div class="w-40 mt-4 border-b-2 pb-4 sm:border-b-0">
-        <p @click="houseShow = !houseShow" class="cursor-pointer">Property type <i
-            class="fa-solid fa-angle-down ml-7"></i></p>
-        <p class="font-bold text-blue-500">{{ house.term }}</p>
+      <div class="w-52 mt-4 border-b-2 pb-4 sm:border-b-0">
+        <p @click="houseShow = !houseShow"
+           class="cursor-pointer lg:text-xl">Property type
+          <i class="fa-solid fa-angle-down ml-7"></i>
+        </p>
+        <p class="font-bold text-blue-500 mt-2">{{ house.term }}</p>
       </div>
       <Transition>
-        <div class="text-left bg-white w-40 shadow rounded -mt-3" v-if="houseShow">
-          <p v-for="house in searchTermsHouse" :key="house" class="mt-2 hover:bg-blue-200 cursor-pointer px-4"
-             @click="[chooseSearchTerms(searchTermsHouse, house), houseShow = false]">{{
-              house.term }}</p>
+        <div class="text-left bg-white w-52 shadow rounded -mt-3 absolute z-40" v-if="houseShow">
+          <p v-for="house in searchTermsHouse" :key="house"
+             class="mt-2 hover:bg-blue-200 cursor-pointer px-4"
+             @click="[chooseSearchTerms(searchTermsHouse, house), houseShow = false]">
+            {{ house.term }}
+          </p>
         </div>
       </Transition>
     </div>
@@ -47,37 +54,7 @@ export default {
     const store = useStore()
     const priceShow = ref(false);
     const houseShow = ref(false);
-    const locationSearch = ref('')
-    const searchTermsPrice = ref([
-      {
-        term: "50000",
-        selected: false,
-      },
-      {
-        term: "100000",
-        selected: false,
-      },
-      {
-        term: "200000",
-        selected: false,
-      },
-      {
-        term: "500000",
-        selected: false,
-      },
-      {
-        term: "1000000",
-        selected: false,
-      },
-      {
-        term: "10000000",
-        selected: true,
-      },
-      {
-        term: "100000000",
-        selected: true,
-      },
-    ]);
+    const locationSearch = ref(store.state.searchLocationTerm)
 
     const searchTermsHouse = ref([
       {
@@ -110,20 +87,16 @@ export default {
       },
     ]);
 
-    const price = ref('')
+    const price = ref(store.state.price)
     const house = ref('')
 
     onMounted(() => {
-      price.value = selectedTerm(searchTermsPrice.value);
       house.value = selectedTerm(searchTermsHouse.value);
-
-      store.state.price = price.value;
       store.state.propertyType = house.value
     });
 
     watchEffect(() => {
-      if (searchTermsPrice.value) {
-        price.value = selectedTerm(searchTermsPrice.value);
+      if (price.value) {
         store.state.price = price.value;
       }
 
@@ -134,7 +107,7 @@ export default {
     })
 
 
-    return {priceShow, houseShow, searchTermsPrice, searchTermsHouse, chooseSearchTerms, price, house, locationSearch, store}
+    return {priceShow, houseShow, searchTermsHouse, chooseSearchTerms, price, house, locationSearch, store}
   }
 }
 </script>

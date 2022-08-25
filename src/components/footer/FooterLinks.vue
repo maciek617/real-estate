@@ -12,12 +12,6 @@
       <router-link :to="{name: link.link3.toLowerCase()}" @click="scrollToTop">
         <p class="text-gray-500 cursor-pointer mt-2">{{ link.link3 }}</p>
       </router-link>
-      <router-link :to="{name: link.link4.toLowerCase()}" @click="scrollToTop">
-        <p class="text-gray-500 cursor-pointer mt-2">{{ link.link4 }}</p>
-      </router-link>
-      <router-link :to="{name: link.link5.toLowerCase()}" @click="scrollToTop">
-        <p class="text-gray-500 cursor-pointer mt-2">{{ link.link5 }}</p>
-      </router-link>
     </div>
   </div>
 </template>
@@ -25,33 +19,28 @@
 <script>
 import {ref} from "vue";
 import scrollToTop from "@/composables/scrollTop";
+
 export default {
   name: "FooterLinks",
   setup() {
     const footerLinkBase = ref([
       {
         title: 'Product',
-        link1: 'Download',
-        link2: 'Location',
-        link3: 'Services',
-        link4: 'Pricing',
-        link5: 'Future'
+        link1: 'Pricing',
+        link2: 'Future',
+        link3: 'Terms',
       },
       {
         title: 'Community',
         link1: 'Newsletter',
-        link2: 'Guest',
-        link3: 'About',
-        link4: 'Contact',
-        link5: 'Events'
+        link2: 'Contact',
+        link3: 'Events'
       },
       {
         title: 'About',
-        link1: 'Investors',
-        link2: 'Carriers',
-        link3: 'Founders',
-        link4: 'Work',
-        link5: 'News'
+        link1: 'Developers',
+        link2: 'Founders',
+        link3: 'News'
       }
     ])
     return {footerLinkBase, scrollToTop}

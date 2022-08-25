@@ -7,11 +7,7 @@ const user = ref(null);
 
 onAuthStateChanged(auth,  (_user) => {
     if (_user) {
-        console.log(_user)
-        console.log(_user.displayName);
-
         user.value = _user
-
     } else {
         user.value = null;
     }

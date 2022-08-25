@@ -12,8 +12,8 @@
             <div class="pt-20 px-2 sm:px-7 sm:pt-24">
               <h1 class="font-bold text-2xl sm:text-3xl">{{ data.name }}</h1>
               <p class="text-gray-500 mt-2" v-if="data.jobTitle.display"><i class="fa-solid fa-briefcase mr-2"></i>{{ data.jobTitle.title }}</p>
-              <p class="text-gray-500"><i class="fa-solid fa-location-dot mr-2"></i>{{ data.location }}</p>
-              <p class="text-gray-500"><i class="fa-solid fa-hourglass-start mr-2"></i>Joined: {{ data.joinDate.toDate().toDateString() }}</p>
+              <p class="text-gray-500"><i class="fa-solid fa-location-dot mr-3"></i>{{ data.location }}</p>
+              <p class="text-gray-500"><i class="fa-solid fa-hourglass-start mr-3"></i>Joined: {{ data.joinDate.toDate().toDateString() }}</p>
 
             </div>
           </div>
@@ -27,6 +27,7 @@
           <p class="font-bold text-xl mb-2">About me</p>
           <p class="pb-2 w-full xl:min-w-about 2xl:min-w-aboutXL">{{ data.bio }}</p>
         </div>
+        <UserPost :user="route.params.user"/>
       </div>
       <div class="flex justify-evenly flex-col items-center sm:flex-row sm:items-start xl:flex-col xl:justify-start xl:ml-5">
         <div class="bg-white mt-4 w-80 p-5 rounded-2xl shadow mx-2 xl:mt-0">
@@ -40,7 +41,7 @@
             Website</a></p>
           <p><i class="fa-brands fa-facebook"></i><a :href="data.social_links[0].fb === 'Add Facebook' || '' ? 'https://www.facebook.com/' : data.social_links[0].fb" target="_blank"
                                                      class="ml-2 underline text-blue-500">Facebook</a></p>
-          <p><i class="fa-brands fa-instagram"></i><a :href="data.social_links[0].ig === 'Add Instagram' || '' ? 'https://www.instagram.com/' : data.social_links[0].ig" target="_blank"
+          <p><i class="fa-brands fa-instagram"></i><a :href="data.social_links[0].ig === 'Add Instagram' || '' ? 'https://www.instagram.com/' : '123' + data.social_links[0].ig" target="_blank"
                                                       class="ml-2 underline text-blue-500">Instagram</a></p>
         </div>
         <div v-if="users.length">
@@ -56,28 +57,32 @@
         </div>
       </div>
     </div>
+
+
   </div>
-  <div v-else class="min-h-70vh">
+  <div v-else class="min-h-70vh pt-72">
     <LoaderView/>
   </div>
 
 </template>
 
 <script>
-import {useRoute} from "vue-router";
-import MainButton from '../components/buttons/MainButton'
+import {useRoute, useRouter} from "vue-router";
+import MainButton from '@/components/buttons/MainButton'
 import useGetUserInfo from "@/composables/getUserInfo";
 import {onMounted, ref, watch} from "vue";
 import useGetAllUsers from "@/composables/getAllUsers";
 import getUser from "@/composables/getUser";
 import LoaderView from "@/components/loaders/LoaderView";
 import scrollToTop from "@/composables/scrollTop";
+import UserPost from "@/components/profile/UserPost";
 
 export default {
   name: "ProfileVIew",
-  components: {MainButton, LoaderView},
+  components: {MainButton, LoaderView, UserPost},
   setup() {
     const route = useRoute();
+    const router = useRouter()
     const showEditButton = ref(true)
     const {users, getAllUsers} = useGetAllUsers();
     const {data, getUserInfo, isPending} = useGetUserInfo();
@@ -90,7 +95,9 @@ export default {
       } else {
         showEditButton.value = false
       }
-      await getAllUsers('users', 3)
+      data.value === null ? await router.push({name: 'not-found'}) : ''
+
+      await getAllUsers('users', 3);
     })
 
     watch(() => route.params.user, async (newId) => {
@@ -106,7 +113,7 @@ export default {
         }
     )
 
-    return {data, showEditButton, users, isPending, scrollToTop}
+    return {data, showEditButton, users, isPending, scrollToTop, route}
   }
 }
 </script>

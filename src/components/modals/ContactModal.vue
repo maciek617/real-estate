@@ -11,7 +11,6 @@
         <p class="text-center mt-5 italic">~ FindState Team</p>
         <i class="fa-solid fa-xmark absolute right-5 top-5 text-4xl cursor-pointer" @click="$emit('closeModal')"></i>
       </div>
-      {{name}}
     </div>
   </Teleport>
 </template>

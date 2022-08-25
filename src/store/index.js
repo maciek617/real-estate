@@ -3,11 +3,12 @@ import {createStore} from 'vuex'
 export default createStore({
     state: {
         searchLocationTerm: '',
-        price: 10000000,
+        price: 999999999999999,
         propertyType: 'All',
         sortBy: '',
         showToastModal: false,
-        myTimeout: 0
+        myTimeout: 0,
+        navOpen: false,
     },
     getters: {},
     mutations: {

@@ -6,7 +6,7 @@
         Firebase and Vue 3.</p>
       <BackHomeButton class="bg-gray-900 text-white py-2"/>
     </div>
-    <img :src="require('../assets/random/insipired.jpg')" alt="inspired people"
+    <img :src="require('@/assets/random/insipired.jpg')" alt="inspired people" loading="lazy"
          class="mt-8 m-auto sm:max-w-xl lg:w-full lg:max-w-xl xl:max-w-2xl shadow-2xl">
   </div>
 </template>

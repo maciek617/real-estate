@@ -35,10 +35,14 @@ export default {
   setup(props, ctx) {
 
     const closeWhenClickOutside = (e) => {
-      if (e.target.classList.contains('fixed')) {
+      if (e.target.classList.contains('fixed') || e.key === "Escape") {
         ctx.emit('closeGallery');
       }
     }
+
+    window.addEventListener('keyup', (e) => {
+      e.key === "Escape" ? ctx.emit('closeGallery') : null
+    });
 
     return {
       modules: [Pagination, Navigation], closeWhenClickOutside

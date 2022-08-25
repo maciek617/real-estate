@@ -1,26 +1,18 @@
 <template>
-  <div class="nav_mobile z-50 relative lg:hidden" @click="changeVisibility">
-    <i class="fa-solid fa-bars-staggered hidden text-3xl" :class="!isActive || !isVisible ? 'active' : ''"></i>
-    <i class="fa-solid fa-xmark hidden text-3xl" :class="isVisible && isActive  ? ['active', 'white'] : ''"></i>
+  <div class="nav_mobile relative lg:hidden" @click="store.state.navOpen = !store.state.navOpen">
+    <i class="fa-solid fa-bars-staggered hidden text-3xl" :class="!store.state.navOpen ? 'active' : ''"></i>
+    <i class="fa-solid fa-xmark hidden text-3xl" :class="store.state.navOpen  ? ['active', 'white'] : ''"></i>
   </div>
 </template>
 
 <script>
-import {ref} from "vue";
+import {useStore} from "vuex";
 
 export default {
   name: "NavMobile",
-  emits: ['show'],
-  props: ['isVisible'],
-  setup(props, ctx) {
-    const isActive = ref(false);
-
-    const changeVisibility = () => {
-      isActive.value = !isActive.value;
-      ctx.emit('show', isActive.value)
-    }
-
-    return { changeVisibility, isActive}
+  setup() {
+    const store = useStore();
+    return {store}
   }
 }
 </script>
@@ -29,6 +21,7 @@ export default {
 .white {
   color: white;
 }
+
 .active {
   display: block;
 }

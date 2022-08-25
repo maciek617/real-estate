@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-50">
     <div class="mt-20 px-4 max-w-newsletterW m-auto sm:min-h-70vh lg:flex lg:flex-row-reverse lg:items-start lg:pt-24 3xl:pt-40">
-      <img :src="require('../assets/random/startup-launch.svg')" alt="startup launch image" class="mt-24 m-auto max-w-xl xl:max-w-3xl w-full px-4 sm:mt-0">
+      <img :src="require('@/assets/random/startup-launch.svg')" alt="startup launch image" class="mt-24 m-auto max-w-xl xl:max-w-3xl w-full px-4 sm:mt-0">
       <div class="text-center lg:mt-10">
         <div class="mt-4">
           <h1 class="text-3xl sm:text-4xl lg:text-5xl">The Latest updates in your inbox for <span class="font-bold">FREE</span>!</h1>

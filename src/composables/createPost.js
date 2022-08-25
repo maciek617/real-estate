@@ -1,14 +1,15 @@
 import {addDoc, collection, serverTimestamp} from "firebase/firestore";
 import {db} from '@/firebase/config'
 import {ref} from "vue";
-import uploadFiles from "@/composables/uploadFile";
 import update from "@/composables/updateFile";
-const urls = ref([]);
-const isPending = ref(false);
-const uploadDone = ref(false);
 
-const addPost = async (data, category, quality, owner, file, fileLength, user) => {
+const isPending = ref(false);
+
+
+
+const addPost = async (data, category, quality, owner, user, urls, main_photo) => {
     try {
+        isPending.value = true;
         const docRef = await addDoc(collection(db, "posts"), {
             title: data.title,
             category: category,
@@ -41,15 +42,13 @@ const addPost = async (data, category, quality, owner, file, fileLength, user) =
             author: {
                 id: user.value.uid,
                 name: user.value.displayName
-            }
+            },
+            main_photo: '',
         });
 
-
-        console.log(docRef.id)
-
-        await uploadFiles(file, docRef.id, isPending, uploadDone, urls, fileLength, user.value.uid);
-        await update("posts", docRef.id, uploadDone, urls);
-
+        await update("posts", docRef.id, urls, main_photo);
+        isPending.value = false
+        return docRef.id
     } catch
         (e) {
         console.log(e)
@@ -57,7 +56,7 @@ const addPost = async (data, category, quality, owner, file, fileLength, user) =
 }
 
 const useAddPost = () => {
-    return {addPost, isPending, uploadDone, urls}
+    return {addPost, isPending}
 }
 
 export default useAddPost

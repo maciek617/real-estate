@@ -3,7 +3,7 @@
     <div class="residence_wrapper flex justify-around items-center flex-col m-auto mt-6 lg:flex-row max-w-screen-xl sm:flex-wrap">
       <div v-for="post in posts" :key="post.id"
            class="residence -translate-x-20 shadow-md mt-4 max-w-xs w-full lg:max-w-sm">
-        <img :src="post.images[0]" alt="residence" class="max-w-sm w-full h-64 object-cover" loading="lazy">
+        <img :src="post.main_photo" alt="residence" class="max-w-sm w-full h-64 object-cover" loading="lazy">
         <span class="block p-4 font-bold"><i class="fa-solid fa-location-dot mr-3"></i>{{
             post.location }}</span>
         <div class="info_box p-4 pt-2 flex justify-around max-w-sm">

@@ -1,10 +1,10 @@
 <template>
   <div class="mt-20 flex flex-col lg:flex-row-reverse items-center lg:justify-center">
-    <div class="relative lg:bg-gray-50 w-full max-w-half lg:min-h-70vh lg:flex lg:items-center">
+    <div class="relative lg:bg-gray-50 w-full max-w-half lg:min-h-80vh lg:flex lg:items-center">
       <i class="fa-solid fa-circle text-blue-500 text-5xl w-full text-center lg:text-9xl"></i>
       <div class="bg-gray-800 w-full h-7 blur absolute top-1/2 card lg:h-24"></div>
     </div>
-    <div class="w-full px-4 lg:h-70 lg:m-0 lg:pt-32">
+    <div class="w-full px-4 lg:h-70 lg:m-0 lg:pt-20">
       <h1 class="text-center text-3xl lg:text-5xl">Welcome to FindState!</h1>
       <p class="text-center text-gray-500">Please enter your details.</p>
       <form class="max-w-sm m-auto" @submit.prevent="submitSignupForm">
@@ -30,23 +30,29 @@
                  placeholder="Password" v-model="state.password.confirm" autocomplete="new-password">
           <p v-if="v$.password.confirm.$error" class="error">{{ v$.password.confirm.$errors[0].$message }}</p>
         </div>
-        <p v-if="error" class="error w-full text-center">{{error}}</p>
-        <div  @mouseover="showToolTip = true" @mouseleave="showToolTip = false">
+        <p v-if="error" class="error w-full text-center">{{ error }}</p>
+        <div class="mt-2 mb-6">
+          <input type="checkbox" id="acceptTerms" v-model="state.accept">
+          <label for="acceptTerms" class="ml-2">Accept <router-link :to="{name: 'terms'}" class="text-blue-500 underline">privacy terms</router-link></label>
+          <p v-if="v$.accept.$error" class="error">Our terms must be accepted</p>
+        </div>
+        <div @mouseover="showToolTip = true" @mouseleave="showToolTip = false" class="absolute">
           <p class="cursor-help text-blue-500 mt-1">Requirements?</p>
           <ToolTip v-if="showToolTip">
-          <p>1. Has min. 8 characters.</p>
-          <p>2. Has min. 1 uppercase letter.</p>
-          <p>3. Has min. 1 lowercase letter.</p>
-          <p>4. Has min. 1 number.</p>
-          <p>5. Has min. 1 special character.</p>
+            <h2>Password:</h2>
+            <p>1. Has min. 8 characters.</p>
+            <p>2. Has min. 1 uppercase letter.</p>
+            <p>3. Has min. 1 lowercase letter.</p>
+            <p>4. Has min. 1 number.</p>
+            <p>5. Has min. 1 special character.</p>
           </ToolTip>
         </div>
-        <MainButton class="bg-gray-900 text-white mt-5 w-full">Signup</MainButton>
-        <MainButton
-            class="bg-white text-black mt-5 w-full flex items-center justify-center py-0 px-0 h-10 border"><img
-            :src="require('../assets/random/google.svg')" alt="google icon" class="w-12">Signup with Google
-        </MainButton>
+        <MainButton class="bg-gray-900 text-white mt-10 w-full">Signup</MainButton>
       </form>
+      <MainButton
+          class="bg-white text-black mt-5 w-full max-w-sm mx-auto flex items-center justify-center py-0 px-0 h-10 border" @click="signInWithGoogle"><img
+          :src="require('@/assets/random/google.svg')" alt="google icon" class="w-12">Signup with Google
+      </MainButton>
       <p class="text-center mt-4 text-gray-500">Have an account?
         <router-link :to="{name: 'login'}"
                      class="text-blue-500">Login
@@ -64,6 +70,11 @@ import {useRouter} from "vue-router";
 import {computed, reactive, ref} from "vue";
 import useSignup from "@/composables/useSignup";
 import ToolTip from "@/components/modals/ToolTip";
+import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
+import {auth} from "@/firebase/config";
+import updateProfileOnSignup from "@/composables/signupUpdate";
+import {doc, getDoc} from "firebase/firestore";
+import {db} from "@/firebase/config";
 
 export default {
   name: "LoginView",
@@ -78,19 +89,23 @@ export default {
       password: {
         password: '',
         confirm: ''
-      }
+      },
+      accept: ''
     })
     const rules = computed(() => {
       return {
         name: {required},
         email: {required, email},
         password: {
-          password: {required, minLength: minLength(8), containsPasswordRequirement: helpers.withMessage(
+          password: {
+            required, minLength: minLength(8), containsPasswordRequirement: helpers.withMessage(
                 () => `The password requires an uppercase, lowercase, number and special character`,
                 (value) => /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(value.toString())
-            ),},
+            ),
+          },
           confirm: {required, sameAs: sameAs(state.password.password)}
-        }
+        },
+        accept: {required}
       }
     })
 
@@ -99,15 +114,39 @@ export default {
       if (!isFormCorrect) return;
 
       await signup(state.email, state.password.password, state.name)
-      console.log('signedUP')
 
-      if(!error.value) {
+      if (!error.value) {
         await router.push({name: 'home'});
       }
     }
     const v$ = useVuelidate(rules, state)
 
-    return {state, v$, submitSignupForm, isPending, error, showToolTip}
+
+    const signInWithGoogle = () => {
+      const error = ref(null);
+      const isPending = ref(false);
+      const provider = new GoogleAuthProvider()
+      signInWithPopup(auth, provider)
+          .then(result => {
+            const checkIfUserWasLoggedIn = async () => {
+              const docRef = doc(db, "users", result.user.uid);
+              const docSnap = await getDoc(docRef);
+
+              if (docSnap.exists()) {
+                console.log('User was logged in')
+              } else {
+                await updateProfileOnSignup(result.user.displayName, error, isPending)
+              }
+            }
+            checkIfUserWasLoggedIn()
+            router.push({name: 'find-house'})
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    }
+
+    return {state, v$, submitSignupForm, isPending, error, showToolTip, signInWithGoogle}
   }
 }
 </script>

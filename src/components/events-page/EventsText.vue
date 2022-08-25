@@ -7,7 +7,7 @@
       <p class="mt-4 text-sm sm:text-lg max-w-xl">Zero hidden service fees, price match guarantee, group discount and
         more. Because it <span class="font-bold italic">should</span> be this easy.</p>
     </div>
-    <img :src="require('../../assets/random/event.jpg')" alt="event img"
+    <img :src="require('../../assets/random/event.jpg')" alt="event img" loading="lazy"
          class="block h-mobile m-auto mt-4  sm:h-tablet lg:w-1/2 lg:h-desktop object-cover rounded-t-full shadow-2xl">
   </div>
 </template>

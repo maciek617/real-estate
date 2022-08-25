@@ -69,6 +69,7 @@ export default {
         img: require('../../assets/profile-pictures/profile6.jpg')
       }
     ]);
+
     const currOpinion = ref({
       id: '0',
       name: 'Crisitina Ozweego',

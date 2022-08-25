@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <Teleport to='#modals'>
     <div
         class="modal fixed bottom-0 left-0 text-white bg-cookies w-full z-40 lg:flex lg:items-center lg:justify-center">
       <p class="text-center mr-4">We use cookies and similar technologies on our website and process your personal

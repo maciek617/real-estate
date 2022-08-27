@@ -9,7 +9,7 @@
          v-show="post.title.includes(searchOwnPost)"
          class="flex items-center my-10 p-2 bg-blue-50 rounded-2xl shadow max-w-xl m-auto"
     >
-      <img :src="post.images[0]"
+      <img :src="post.main_photo"
            alt="main photo"
            class="w-32 object-cover rounded-xl"
       >

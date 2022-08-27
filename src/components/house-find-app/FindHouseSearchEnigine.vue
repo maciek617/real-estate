@@ -1,13 +1,11 @@
 <template>
-
   <div class="bg-gray-100 mt-5 flex flex-col items-center rounded shadow sm:flex-row sm:justify-around sm:items-start sm:h-32">
     <div class="w-52 mt-4 border-b-2 pb-4 sm:border-b-0">
       <p class="lg:text-xl">Location</p>
       <input type="text"
              class="rounded shadow mt-2 p-2 w-52"
              placeholder="ex. New York"
-             v-model="locationSearch"
-             @keyup="store.state.searchLocationTerm = locationSearch">
+             v-model="store.state.searchLocationTerm">
     </div>
     <div>
       <div class="w-52 mt-4 border-b-2 pb-4 sm:border-b-0">
@@ -15,9 +13,7 @@
         <input type="number"
                class="rounded shadow mt-2 p-2 w-52"
                placeholder="100000$"
-               v-model="price"
-               @keyup="store.state.price = price === '' ? 1000000000 : price ">
-
+               v-model="store.state.price">
       </div>
     </div>
     <div>
@@ -54,7 +50,6 @@ export default {
     const store = useStore()
     const priceShow = ref(false);
     const houseShow = ref(false);
-    const locationSearch = ref(store.state.searchLocationTerm)
 
     const searchTermsHouse = ref([
       {
@@ -87,8 +82,7 @@ export default {
       },
     ]);
 
-    const price = ref(store.state.price)
-    const house = ref('')
+    const house = ref({})
 
     onMounted(() => {
       house.value = selectedTerm(searchTermsHouse.value);
@@ -96,10 +90,6 @@ export default {
     });
 
     watchEffect(() => {
-      if (price.value) {
-        store.state.price = price.value;
-      }
-
       if (searchTermsHouse.value) {
         house.value = selectedTerm(searchTermsHouse.value);
         store.state.propertyType = house.value
@@ -107,7 +97,7 @@ export default {
     })
 
 
-    return {priceShow, houseShow, searchTermsHouse, chooseSearchTerms, price, house, locationSearch, store}
+    return {priceShow, houseShow, searchTermsHouse, chooseSearchTerms, house, store}
   }
 }
 </script>

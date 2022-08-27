@@ -14,20 +14,12 @@
                v-show="post.price.price <= (store.state.price.term ? store.state.price.term : store.state.price)
                && post.location.includes(store.state.searchLocationTerm)
                && post.category.includes((store.state.propertyType.term ? store.state.propertyType.term : store.state.propertyType ))"
+               ref="item"
           >
-
-            <!--            TODO: Doesn't work properly-->
-            <div class="hidden">
-              <p v-if="!post.location.includes(store.state.searchLocationTerm) || !post.category.includes(store.state.propertyType)
-              || post.price.price > store.state.price.term">{{ showMessage = true }}</p>
-              <p v-else>{{ showMessage = false }}</p>
-            </div>
-
             <div>
               <img :src="post.main_photo" alt="residence" class="max-w-sm w-full h-64 object-cover" loading="eager">
               <span class="block p-4 font-bold"><i class="fa-solid fa-location-dot mr-3"></i>{{ post.location }}</span>
               <div class="info_box p-4 pt-2 flex justify-around max-w-sm">
-                {{ store.state.propertyType.term }}
                 <span class="text-gray-600"><i class="fa-solid fa-bed text-xl mr-2"></i>{{ post.basic_info.rooms }} Bed</span>
                 <span class="text-gray-600"><i class="fa-solid fa-bath text-xl mr-2"></i>{{ post.basic_info.bathrooms }} Bath</span>
                 <span class="text-gray-600"><i class="fa-solid fa-layer-group mr-2"></i>{{ post.basic_info.surface }}㎡</span>
@@ -44,7 +36,7 @@
         </TransitionGroup>
       </div>
       <p v-if="showMessage" class="text-blue-500 text-center">No real estate was found</p>
-      <div class="flex justify-center mt-4" v-if="posts.length >= 6 && !showMessage">
+      <div class="flex justify-center mt-4" v-if="posts.length >= 6 && lastVisibleItem">
         <MainButton class="load_next_post text-white bg-black" @click="loadNextPosts">Load more...</MainButton>
       </div>
       <div v-if="!lastVisibleItem" class="text-center">
@@ -59,7 +51,7 @@
 <script>
 import FindHouseSort from "@/components/house-find-app/FindHouseSort";
 import useGetAllPosts from "@/composables/getAllPosts";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, ref, watch, watchEffect} from "vue";
 import MainButton from "@/components/buttons/MainButton";
 import LoaderView from "@/components/loaders/LoaderView";
 import {useStore} from "vuex";
@@ -79,7 +71,6 @@ export default {
     const {posts, getAllPosts, isLoading, nextPost, nextPosts, lastVisibleItem} = useGetAllPosts();
     const store = useStore();
     const showFilters = ref(false);
-
     const path = ref('posts');
     const orderByField = ref('timestamp');
     const direction = ref('desc');
@@ -88,8 +79,9 @@ export default {
     const operator = ref('<');
     const whereValueField = ref(new Date());
 
-    onMounted(() => {
-      getAllPosts(path.value, orderByField.value, direction.value, +limit.value, whereField.value, operator.value, whereValueField.value);
+    const item = ref([]);
+    onMounted(async () => {
+      await getAllPosts(path.value, orderByField.value, direction.value, +limit.value, whereField.value, operator.value, whereValueField.value);
     })
 
     watch(() => store.state.sortBy.term,
@@ -124,9 +116,28 @@ export default {
     }
 
 
-    const showMessage = ref(false)
+    const showMessage = ref(false);
 
-    return {posts, isLoading, store, showFilters, lastVisibleItem, loadNextPosts, nextPosts, reloadPage, showMessage}
+
+    watchEffect(() => {
+      if (store.state.price) {
+        setTimeout(() => {
+          showMessage.value = item.value.every(item => item?.style.display === 'none')
+        }, 520)
+      }
+      if (store.state.propertyType.term) {
+        setTimeout(() => {
+          showMessage.value = item.value.every(item => item?.style.display === 'none')
+        }, 520)
+      }
+      if (store.state.searchLocationTerm) {
+        setTimeout(() => {
+          showMessage.value = item.value.every(item => item?.style.display === 'none')
+        }, 520)
+      }
+    })
+
+    return {posts, isLoading, store, showFilters, lastVisibleItem, loadNextPosts, nextPosts, reloadPage, showMessage, item}
   }
 }
 </script>

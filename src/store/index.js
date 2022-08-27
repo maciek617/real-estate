@@ -4,7 +4,9 @@ export default createStore({
     state: {
         searchLocationTerm: '',
         price: 999999999999999,
-        propertyType: 'All',
+        propertyType: {
+            term: 'All'
+        },
         sortBy: '',
         showToastModal: false,
         myTimeout: 0,

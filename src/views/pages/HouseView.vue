@@ -6,12 +6,12 @@
         <h1 class="text-3xl font-bold sm:text-4xl lg:text-5xl">{{ data.title }}</h1>
         <p class="text-gray-500 sm:text-xl">{{ data.location }}</p>
       </div>
-      <div class="flex items-center justify-end">
-        <div v-if="user">
-          <router-link :to="{name: 'edit-post', params: {id: data.id}}">
-            <MainButton v-if="data.author.id === user.uid" class="bg-gray-900 text-white m-2"><i class="fa-solid fa-pen-to-square mr-2"></i>Edit</MainButton>
-          </router-link>
+      <div class="flex items-center justify-center flex-wrap lg:justify-end">
+        <div v-if="user" class="relative">
+          <EditPostPass :timeToUpdate="timeToUpdate" :data="data" :user="user" :notToUpdate="notToUpdate" :dateToUpdate="dateToUpdate"/>
         </div>
+        <MainButton class="bg-gray-900 text-white m-2" @click="showStatsModal = true"><i class="fa-solid fa-chart-simple mr-2"></i>Stats</MainButton>
+        <MainButton class="bg-gray-900 text-white m-2" @click="setHouseToCompare"><i class="fa-solid fa-code-compare mr-2"></i>Add to compare</MainButton>
         <MainButton class="bg-gray-900 text-white m-2" @click="copyLink"><i class="fa-solid fa-share-nodes mr-2"></i>Share</MainButton>
       </div>
       <div>
@@ -37,83 +37,30 @@
           <LoaderView/>
         </div>
       </div>
-
-      <div class=" bg-white flex flex-wrap justify-between mt-10 rounded-2xl p-2 max-w-7xl m-auto shadow lg:justify-evenly">
-        <div class="sm:flex sm:justify-evenly w-full max-w-2xl m-auto">
-          <div class="mx-4 mt-2 max-w-comp w-full">
-            <p class="font-bold lg:text-xl">Bedrooms</p>
-            <p class="lg:text-xl"><i class="fa-solid fa-bed mr-2"></i>{{ data.basic_info.rooms }}</p>
-          </div>
-          <div class="mx-4 mt-2 max-w-comp w-full">
-            <p class="font-bold lg:text-xl">Bathrooms</p>
-            <p class="lg:text-xl"><i class="fa-solid fa-bath mr-2"></i>{{ data.basic_info.bathrooms }}</p>
-          </div>
-          <div class="mx-4 mt-2 max-w-comp w-full">
-            <p class="font-bold lg:text-xl">Floors</p>
-            <p class="lg:text-xl"><i class="fa-solid fa-align-justify mr-2"></i>{{ data.basic_info.floor_ }}</p>
-          </div>
-        </div>
-        <div class="sm:flex w-full sm:justify-evenly max-w-2xl m-auto sm:mt-5">
-          <div class="mx-4 mt-2 max-w-comp w-full">
-            <p class="font-bold lg:text-xl">Square Area</p>
-            <p class="lg:text-xl"><i class="fa-solid fa-layer-group mr-2"></i>{{ data.basic_info.surface }}㎡</p>
-          </div>
-          <div class="mx-4  mt-2 max-w-comp w-full">
-            <p class="font-bold lg:text-xl">Heating</p>
-            <p class="lg:text-xl"><i class="fa-solid fa-dumpster-fire mr-2"></i>{{ data.basic_info.heating }}</p>
-          </div>
-          <div class="mx-4  mt-2 max-w-comp w-full">
-            <p class="font-bold lg:text-xl">Owner</p>
-            <p class="lg:text-xl"><i class="fa-solid fa-user-check mr-2"></i>{{ data.owner }}</p>
-          </div>
-        </div>
+      <BasicInfo :data="data"/>
+      <DescriptionInfo :data="data"/>
+      <div class="flex flex-col lg:flex-row items-center">
+        <AdditionalInfo :data="data"/>
+        <ContactInfo :data="data"/>
       </div>
-
-      <div class="mt-8 bg-white rounded-2xl p-4">
-        <p class="text-3xl font-bold">About this home</p>
-        <p class="">{{ data.description }}</p>
-      </div>
-      <div class="flex justify-around w-full flex-col sm:flex-row">
-        <div class="mt-8 bg-white shadow rounded-2xl p-4 max-w-lg w-full">
-          <p class="text-3xl font-bold mb-4">Additional information</p>
-          <p class="text-xl italic"><i class="fa-solid fa-house-chimney-window w-8"></i>Balcony:
-            <span class="not-italic font-bold ml-2 underline">{{ !data.additional_info.balcony ? 'No' : 'Yes' }}</span></p>
-          <p class="text-xl italic"><i class="fa-solid fa-building-wheat w-8"></i>Garden: <span class="not-italic font-bold ml-2 underline">{{ !data.additional_info.garden ? 'No' : 'Yes' }}</span></p>
-          <p class="text-xl italic"><i class="fa-solid fa-square-parking w-8"></i>Parking space: <span class="not-italic font-bold ml-2 underline">{{ !data.additional_info.parking ? 'No' : 'Yes'
-            }}</span></p>
-          <p class="text-xl italic"><i class="fa-solid fa-house-lock w-8"></i>State: <span class="not-italic font-bold ml-2 underline">{{ data.quality }}</span></p>
-        </div>
-
-
-        <div class="mt-8 bg-white shadow rounded-2xl p-4   max-w-lg w-full">
-          <p class="text-3xl font-bold mb-2">Contact Info</p>
-          <p class="text-xl pt-3"><i class="fa-solid fa-user w-8"></i>{{ data.contact_details.name }}</p>
-          <p class="text-xl pt-3"><i class="fa-solid fa-envelope w-8"></i><a :href="'mailto:' + data.contact_details.email">{{ data.contact_details.email }}</a></p>
-          <p class="text-xl pt-3"><i class="fa-solid fa-phone w-8"></i><a :href="'tel:' + data.contact_details.phone"> {{
-              data.contact_details.phone.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-                  " ") }}</a></p>
-          <router-link :to="{name: 'profile', params: {user: data.author.id}}"></router-link>
-        </div>
-      </div>
-      <div>
-        <MortageView v-if="user" :maxCredit="data.price.price"/>
-        <div class="mt-10 pb-4" v-else>
-          <p class="text-3xl font-bold">Calculate mortgage in seconds.</p>
-          <p class="text-gray-500 mt-2">Unlimited calculations for our users!</p>
-          <p class="text-center text-3xl mt-2 mb-4">You need to be logged in to see this content!</p>
-          <div class="w-full text-center">
-            <router-link :to="{name: 'login'}">
-              <MainButton class="text-white bg-gray-900">Login</MainButton>
-            </router-link>
-          </div>
+    </div>
+    <div>
+      <MortageView v-if="user" :maxCredit="data.price.price"/>
+      <div class="mt-10 pb-4" v-else>
+        <p class="text-3xl font-bold">Calculate mortgage in seconds.</p>
+        <p class="text-gray-500 mt-2">Unlimited calculations for our users!</p>
+        <p class="text-center text-3xl mt-2 mb-4">You need to be logged in to see this content!</p>
+        <div class="w-full text-center">
+          <router-link :to="{name: 'login'}">
+            <MainButton class="text-white bg-gray-900">Login</MainButton>
+          </router-link>
         </div>
       </div>
     </div>
   </div>
-  <ToastModal>
-    <h1 class="text-2xl font-bold drop-shadow">Success!</h1>
-    <p class="pr-4 sm:text-xl">Link has been copied. Now you can share with others.</p>
-  </ToastModal>
+  <div v-if="showStatsModal">
+    <HouseStats @closeModal="showStatsModal = false" :data="data"/>
+  </div>
   <LoaderView v-if="!data"/>
 </template>
 
@@ -122,17 +69,25 @@
 import useGetSingleHouse from "@/composables/getSingleHouse";
 import MainButton from "@/components/buttons/MainButton";
 import {useRoute, useRouter} from "vue-router";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch, watchEffect} from "vue";
 import LoaderView from "@/components/loaders/LoaderView";
-import ToastModal from "@/components/modals/ToastModal";
+import EditPostPass from "@/components/EditPostPass";
 import {useStore} from "vuex";
 import MortageView from "@/components/mortage/mortageView";
 import getUser from "@/composables/getUser";
+import HouseStats from "@/components/HouseStats";
+import BasicInfo from "@/components/house/BasicInfo";
+import AdditionalInfo from "@/components/house/AdditionalInfo";
+import ContactInfo from "@/components/house/ContactInfo";
+import DescriptionInfo from "@/components/house/DescriptionInfo";
 import {defineAsyncComponent} from "vue";
 
 export default {
   name: "HouseView",
-  components: {MainButton, LoaderView, ToastModal, MortageView, ImagesGalleryModal: defineAsyncComponent(() => import('@/components/modals/ImagesGalleryModal.vue'))},
+  components: {
+    BasicInfo, AdditionalInfo, MainButton, LoaderView, EditPostPass, MortageView, ImagesGalleryModal: defineAsyncComponent(() => import('@/components/modals/ImagesGalleryModal.vue')),
+    HouseStats, ContactInfo, DescriptionInfo
+  },
   setup() {
     const {error, data, getSingleHouse} = useGetSingleHouse();
     const route = useRoute();
@@ -143,7 +98,8 @@ export default {
     const loadedImages = ref([]);
     const showGallery = ref(false);
     const filteredImages = ref();
-
+    const showStatsModal = ref(false);
+    const dateToUpdate = ref()
     const deleteMainPhotoFromImages = () => {
       filteredImages.value = data.value.images.filter(image => image !== data.value.main_photo)
     }
@@ -151,7 +107,8 @@ export default {
 
     onMounted(async () => {
       await getSingleHouse('posts', route.params.id);
-      error.value !== '' ? await router.push({name: 'not-found'}) : deleteMainPhotoFromImages()
+      dateToUpdate.value = new Date(data.value.nextUpdate * 1000)
+      error.value !== '' ? await router.push({name: 'not-found'}) : deleteMainPhotoFromImages();
     })
 
     const priceWithCommas = computed(() => {
@@ -161,24 +118,54 @@ export default {
     const isLoaded = (img) => {
       loadedImages.value.push(img);
       if (loadedImages.value.length !== 3) return;
-
       load.value = true;
       loadedImages.value = [];
     }
 
     const copyLink = () => {
+      notToUpdate.value = !notToUpdate.value
       navigator.clipboard.writeText(window.location.href);
-      store.dispatch('startTimer')
+      store.dispatch('startTimer');
     }
 
-    watch(
-        () => showGallery.value,
-        (show) => {
-          show ? window.document.body.classList.add('scroll-disabled') : window.document.body.classList.remove('scroll-disabled')
-        }
-    )
+    watch(() => [showGallery.value, showStatsModal.value], ([newGallery, newStats]) => {
+      if (newGallery) {
+        window.document.body.classList.add('scroll-disabled')
+      } else if (newStats) {
+        window.document.body.classList.add('scroll-disabled')
+      } else {
+        window.document.body.classList.remove('scroll-disabled')
+      }
+    })
 
-    return {error, data, priceWithCommas, load, isLoaded, copyLink, user, showGallery, filteredImages}
+    const currentCompareHouse = JSON.parse(localStorage.getItem('houses'));
+
+    const setHouseToCompare = () => {
+      showStatsModal.value = true;
+      if (store.state.housesToCompare.length === 0 || store.state.housesToCompare[0] === undefined || store.state.housesToCompare[store.state.housesToCompare.length - 1].id !== data.value.id) {
+        if (store.state.housesToCompare.length < 2 || currentCompareHouse.length < 2) {
+          store.state.housesToCompare.push(data.value);
+          localStorage.setItem('houses', JSON.stringify(store.state.housesToCompare))
+        }
+      }
+    }
+
+
+    const notToUpdate = ref(false);
+    const timeToUpdate = ref();
+
+    setInterval(() => {
+      const nowTime = new Date();
+      timeToUpdate.value = dateToUpdate.value - nowTime;
+    }, 1000)
+
+    watchEffect(() => {
+      if (timeToUpdate.value < 0) {
+        notToUpdate.value = false
+      }
+    })
+
+    return {error, data, priceWithCommas, load, isLoaded, copyLink, user, showGallery, filteredImages, showStatsModal, setHouseToCompare, notToUpdate, timeToUpdate, dateToUpdate}
   }
 }
 </script>

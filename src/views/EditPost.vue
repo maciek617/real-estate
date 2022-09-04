@@ -107,7 +107,7 @@
         <p>Edit description<span class="text-blue-500">*</span></p>
         <textarea class="border w-full  min-h-mn max-h-screen p-2 whitespace-pre-wrap sm:w-full sm:max-w-full sm:h-32" placeholder="Describe your product, more details = more clients!"
                   v-model="state.description"/>
-        <p v-if="v$.description.$error" class="error">{{v$.description.$errors[0].$message}}</p>
+        <p v-if="v$.description.$error" class="error">{{ v$.description.$errors[0].$message }}</p>
         <p class="text-gray-500">Chars left: {{ countChars }}</p>
       </div>
 
@@ -133,12 +133,15 @@
           </div>
         </div>
       </div>
+      <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+        <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" :style="{'width': (progress * 100).toFixed(1) + '%'} ">{{(progress * 100).toFixed(1)
+          }}%</div>
+      </div>
 
       <div>
         <DropZone @drop.prevent="drop" @change="selectedFiles"/>
         <span class="text-2xl block mt-2">Files: {{ images.length }}</span>
       </div>
-
       <div class="mt-4 bg-white px-2 rounded shadow py-2">
         <p>Contact details<span class="text-blue-500">*</span></p>
         <div class="flex flex-col mt-4">
@@ -188,6 +191,8 @@ import deletePost from "@/composables/deletePost";
 import DropZone from "@/components/DropZone";
 import useUploadFiles from "@/composables/uploadFile";
 import useBaseElements from "@/composables/createEditPostBase";
+import updateSingleField from "@/composables/updateOneField";
+import {arrayUnion} from "firebase/firestore";
 
 export default {
   name: "EditPosts",
@@ -195,7 +200,7 @@ export default {
   setup() {
     const {data, error, getSingleHouse} = useGetSingleHouse()
     const {selectedTerm, chooseSearchTerms, show} = useSelectChooseTerm();
-    const {uploadFiles} = useUploadFiles()
+    const {uploadFiles, progress} = useUploadFiles()
     const {user} = getUser()
     const route = useRoute();
     const router = useRouter();
@@ -256,15 +261,14 @@ export default {
         state.contact_details.email = data.value.contact_details.email;
         state.contact_details.phone = data.value.contact_details.phone;
         state.images = data.value.images;
-        state.main_photo = data.main_photo;
+        state.main_photo = data.value.main_photo;
       }
     })
 
 
     const images = ref('')
-
     const drop = async (e) => {
-      images.value = e.dataTransfer.files;
+      images.value = e.dataTransfer.file;
       await uploadImages()
     }
 
@@ -273,11 +277,30 @@ export default {
       await uploadImages()
     }
 
+    const updatePriceHistory = async () => {
+      const oldPriceValues = ref(data.value.priceHistory.price);
+      const oldDates = ref(data.value.priceHistory.date);
+
+      oldPriceValues.value.push(state.price.price)
+      oldDates.value.push(new Date().toDateString());
+
+      await updateSingleField('posts', route.params.id, {
+        priceHistory: {
+          date: arrayUnion(...oldDates.value),
+          price: arrayUnion(...oldPriceValues.value)
+        }
+      })
+    }
+
 
     const submitCreatePost = async () => {
       const isFormCorrect = await v$.value.$validate()
       if (!isFormCorrect) return;
-      await updatePost(route.params.id, state, category.value.term ? category.value.term : category.value, quality.value, owner.value)
+      await updatePost(route.params.id, state, category.value?.term ? category.value.term : category.value, quality.value, owner.value);
+      await updatePriceHistory();
+      await updateSingleField('posts', route.params.id, {
+        nextUpdate: (new Date().getTime() / 1000) + 86400
+      })
       v$.value.$reset();
       await router.push({name: 'find-house'})
     }
@@ -298,9 +321,9 @@ export default {
     }
 
     watchEffect(() => {
-      if (images.value.length > 0 && temp_img.value.length === images.value.length) {
+      if (images.value?.length > 0 && temp_img.value.length === images.value.length) {
         const temp = temp_img.value
-        state.images = state.images.concat(temp);
+        state.images = state.images.concat(temp) || [];
       }
     })
 
@@ -314,7 +337,7 @@ export default {
 
     return {
       data, error, user, route, chooseSearchTerms, submitCreatePost, show, v$, state, category, countChars, cancelCreate, quality,
-      owner, searchTerms, deleteP, drop, selectedFiles, images, setMainPhotoHouse, img, removeImages, showConfirmModal
+      owner, searchTerms, deleteP, drop, selectedFiles, images, setMainPhotoHouse, img, removeImages, showConfirmModal, progress
     }
   }
 }

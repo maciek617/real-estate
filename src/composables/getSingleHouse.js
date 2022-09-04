@@ -13,10 +13,9 @@ const getSingleHouse = async (path, item) => {
     if (!docSnap.exists()) {
         error.value = 'Something went wrong';
     } else {
+        data.value = docSnap.data();
         error.value = ''
     }
-
-    data.value = docSnap.data();
 
     return data;
 }

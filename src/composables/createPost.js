@@ -44,6 +44,11 @@ const addPost = async (data, category, quality, owner, user, urls, main_photo) =
                 name: user.value.displayName
             },
             main_photo: '',
+            priceHistory: {
+                date: [],
+                price: []
+            },
+            nextUpdate: ''
         });
 
         await update("posts", docRef.id, urls, main_photo);

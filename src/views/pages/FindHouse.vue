@@ -82,6 +82,7 @@ export default {
     const item = ref([]);
     onMounted(async () => {
       await getAllPosts(path.value, orderByField.value, direction.value, +limit.value, whereField.value, operator.value, whereValueField.value);
+      showMessage.value = item.value.every(item => item?.style.display === 'none')
     })
 
     watch(() => store.state.sortBy.term,

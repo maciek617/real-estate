@@ -1,7 +1,7 @@
 <template>
   <Teleport to='#modals'>
     <Transition name="slide-fade">
-      <div class="fixed z-40 top-24 right-1 bg-success text-white p-2 rounded-t-2xl shadow-2xl w-full max-w-filterVw pb-7 lg:max-w-sm" v-if="store.state.showToastModal">
+      <div class="fixed z-40 top-24 right-1 text-white p-2 rounded-t-2xl shadow-2xl w-full max-w-filterVw pb-7 lg:max-w-sm" :class="failed ? 'bg-red-500' : 'bg-success'" v-if="store.state.showToastModal">
         <i class="fa-regular fa-comments text-5xl absolute -top-4 -left-2 shadow-black text-blue-600"></i>
         <i class="fa-solid fa-xmark absolute top-3 right-5 text-2xl cursor-pointer text-blue-600 hover:rotate-90 transition" @click="closeModal"></i>
         <div class="py-2 px-1 mt-5">
@@ -19,6 +19,7 @@ import {useRoute} from "vue-router";
 
 export default {
   name: "ToastModal",
+  props: ['failed'],
   setup() {
     const store = useStore();
     const route = useRoute();

@@ -5,7 +5,7 @@ import getUser from "@/composables/getUser";
 
 const docID = ref('');
 const createTempPost = async () => {
-    const {user} = getUser()
+    const {user} = getUser();
     const docRef = await addDoc(collection(db, "post_archived"), {
         title: '',
         category: '',
@@ -39,18 +39,17 @@ const createTempPost = async () => {
             name: ''
         },
         main_photo: '',
-        id: "",
+        id: '',
         images: []
     })
 
+    docID.value = docRef.id
 
-    const tempDoc = doc(db, "post_archived", docRef.id)
+    const tempDoc = doc(db, "post_archived", docID.value)
 
     await updateDoc(tempDoc, {
-        id: docRef.id
+        id: docID.value
     })
-
-    docID.value = docRef.id
 }
 
 

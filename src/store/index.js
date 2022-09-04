@@ -11,6 +11,7 @@ export default createStore({
         showToastModal: false,
         myTimeout: 0,
         navOpen: false,
+        housesToCompare: []
     },
     getters: {},
     mutations: {

@@ -6,7 +6,7 @@
         <h1 class="text-3xl font-bold sm:text-4xl lg:text-5xl">{{ data.title }}</h1>
         <p class="text-gray-500 sm:text-xl">{{ data.location }}</p>
       </div>
-      <div class="flex items-center justify-center flex-wrap lg:justify-end">
+      <div class="flex items-center justify-center flex-wrap mt-10 lg:justify-end lg:mt-0">
         <div v-if="user" class="relative">
           <EditPostPass :timeToUpdate="timeToUpdate" :data="data" :user="user" :notToUpdate="notToUpdate" :dateToUpdate="dateToUpdate"/>
         </div>
@@ -28,9 +28,10 @@
             <p class="font-bold text-3xl text-center p-2 sm:mt-10">+{{ data.images.length - 3 }}</p>
           </div>
         </div>
-        <MainButton class="text-white bg-gray-900 mt-5 lg:mt-10 disabled:cursor-not-allowed" :disabled="!load" @click="showGallery = true">Show full gallery</MainButton>
+        <MainButton class="text-white bg-gray-900 mt-5 lg:mt-10 disabled:cursor-not-allowed" :disabled="!load" @click="showGallery = true"><i class="fa-solid fa-magnifying-glass mr-2"></i>Show full
+          gallery</MainButton>
         <router-link :to="{name: 'profile', params: {user: data.author.id}}">
-          <MainButton class="text-white bg-gray-900 mt-5 lg:mt-10 ml-4 disabled:cursor-not-allowed">Seller's profile</MainButton>
+          <MainButton class="text-white bg-gray-900 mt-5 lg:mt-10 ml-4 disabled:cursor-not-allowed"><i class="fa-solid fa-user mr-2"></i>Seller's profile</MainButton>
         </router-link>
         <ImagesGalleryModal v-if="showGallery" :images="data.images" @closeGallery="showGallery = false"/>
         <div v-if="!load">
@@ -47,8 +48,10 @@
     <div>
       <MortageView v-if="user" :maxCredit="data.price.price"/>
       <div class="mt-10 pb-4" v-else>
-        <p class="text-3xl font-bold">Calculate mortgage in seconds.</p>
-        <p class="text-gray-500 mt-2">Unlimited calculations for our users!</p>
+        <div class="max-w-7xl m-auto mb-10">
+          <p class="text-3xl font-bold">Calculate mortgage in seconds.</p>
+          <p class="text-gray-500 mt-2">Unlimited calculations for our users!</p>
+        </div>
         <p class="text-center text-3xl mt-2 mb-4">You need to be logged in to see this content!</p>
         <div class="w-full text-center">
           <router-link :to="{name: 'login'}">
@@ -99,11 +102,11 @@ export default {
     const showGallery = ref(false);
     const filteredImages = ref();
     const showStatsModal = ref(false);
-    const dateToUpdate = ref()
+    const dateToUpdate = ref();
+
     const deleteMainPhotoFromImages = () => {
       filteredImages.value = data.value.images.filter(image => image !== data.value.main_photo)
     }
-
 
     onMounted(async () => {
       await getSingleHouse('posts', route.params.id);
@@ -149,7 +152,6 @@ export default {
         }
       }
     }
-
 
     const notToUpdate = ref(false);
     const timeToUpdate = ref();

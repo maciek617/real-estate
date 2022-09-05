@@ -19,7 +19,7 @@ import ScrollTopButon from "@/components/buttons/ScrollTopButon";
 import ToastModal from "@/components/modals/ToastModal";
 import {useCookies} from 'vue3-cookies';
 import {useStore} from "vuex";
-import {onMounted, ref, watchEffect} from 'vue';
+import {onMounted, ref, watch, watchEffect} from 'vue';
 import {useRoute} from "vue-router";
 import scrollToTop from "@/composables/scrollTop";
 
@@ -51,6 +51,12 @@ export default {
       }
     })
 
+    watch(() => route.path, (newPath) => {
+      if(!newPath.includes('/app')) {
+        store.state.searchLocationTerm = '';
+        store.state.price = 999999999999
+      }
+    })
 
     return {cookies, showCookies, acceptCookies, declineCookies, store}
   }

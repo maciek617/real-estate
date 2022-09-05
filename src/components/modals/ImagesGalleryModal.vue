@@ -24,6 +24,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+//TODO: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ change slides by clicking arrow left/right @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 export default {
   components: {
     Swiper,

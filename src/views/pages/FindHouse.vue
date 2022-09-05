@@ -26,7 +26,7 @@
               </div>
               <div class="absolute right-2 rounded top-2 bg-white py-2 px-4 shadow-2xl cursor-default">{{ post.category.toString().replace('All', '') }}</div>
               <div class="price flex items-center justify-between p-4">
-                <router-link :to="{name: 'house', params: {title: post.title.replaceAll(' ', '-').toLowerCase(), id: post.id}}">
+                <router-link :to="{name: 'house', params: {title: post.title.replaceAll(' ', '-').toLowerCase(), id: post?.id}}">
                   <MainButton class="text-white bg-black">Review Now</MainButton>
                 </router-link>
                 <span class="font-bold">${{ post.price.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</span>
@@ -51,7 +51,7 @@
 <script>
 import FindHouseSort from "@/components/house-find-app/FindHouseSort";
 import useGetAllPosts from "@/composables/getAllPosts";
-import {onMounted, ref, watch, watchEffect} from "vue";
+import {onMounted, ref, watchEffect, watch} from "vue";
 import MainButton from "@/components/buttons/MainButton";
 import LoaderView from "@/components/loaders/LoaderView";
 import {useStore} from "vuex";
@@ -78,8 +78,8 @@ export default {
     const whereField = ref('timestamp');
     const operator = ref('<');
     const whereValueField = ref(new Date());
-
     const item = ref([]);
+
     onMounted(async () => {
       await getAllPosts(path.value, orderByField.value, direction.value, +limit.value, whereField.value, operator.value, whereValueField.value);
       showMessage.value = item.value.every(item => item?.style.display === 'none')
@@ -136,7 +136,13 @@ export default {
           showMessage.value = item.value.every(item => item?.style.display === 'none')
         }, 520)
       }
+      if (posts.value.length) {
+        setTimeout(() => {
+          showMessage.value = item.value.every(item => item?.style.display === 'none')
+        }, 520)
+      }
     })
+
 
     return {posts, isLoading, store, showFilters, lastVisibleItem, loadNextPosts, nextPosts, reloadPage, showMessage, item}
   }

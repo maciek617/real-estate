@@ -134,8 +134,9 @@
         </div>
       </div>
       <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-        <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" :style="{'width': (progress * 100).toFixed(1) + '%'} ">{{(progress * 100).toFixed(1)
-          }}%</div>
+        <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" :style="{'width': (progress * 100).toFixed(1) + '%'} ">{{ (progress * 100).toFixed(1)
+          }}%
+        </div>
       </div>
 
       <div>
@@ -296,11 +297,17 @@ export default {
     const submitCreatePost = async () => {
       const isFormCorrect = await v$.value.$validate()
       if (!isFormCorrect) return;
+
       await updatePost(route.params.id, state, category.value?.term ? category.value.term : category.value, quality.value, owner.value);
-      await updatePriceHistory();
+
+      if (state.price.price !== data.value.price.price) {
+        await updatePriceHistory();
+      }
+
       await updateSingleField('posts', route.params.id, {
         nextUpdate: (new Date().getTime() / 1000) + 86400
-      })
+      });
+
       v$.value.$reset();
       await router.push({name: 'find-house'})
     }

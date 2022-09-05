@@ -1,5 +1,6 @@
 <template>
-  <div class="mt-20 px-4 min-h-70vh pt-10">
+  <div class="mt-20 px-4 min-h-70vh pt-10 bg-gray-200 pb-5">
+    <p class="text-center">Search in your posts.</p>
     <input type="text"
            v-model="searchOwnPost"
            placeholder="Search by title"

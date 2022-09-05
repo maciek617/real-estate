@@ -1,6 +1,6 @@
 <template>
   <div class="pb-5">
-    <div class="mt-10">
+    <div class="mt-10 max-w-7xl m-auto mb-10">
       <p class="text-3xl font-bold">Calculate mortgage in seconds.</p>
       <p class="text-gray-500 mt-2">Unlimited calculations for our users!</p>
     </div>

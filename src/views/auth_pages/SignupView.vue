@@ -4,7 +4,7 @@
       <i class="fa-solid fa-circle text-blue-500 text-5xl w-full text-center lg:text-9xl"></i>
       <div class="bg-gray-800 w-full h-7 blur absolute top-1/2 card lg:h-24"></div>
     </div>
-    <div class="w-full px-4 lg:h-70 lg:m-0 lg:pt-20">
+    <div class="w-full px-4 lg:min-h-ct lg:m-0 lg:pt-20">
       <h1 class="text-center text-3xl lg:text-5xl">Welcome to FindState!</h1>
       <p class="text-center text-gray-500">Please enter your details.</p>
       <form class="max-w-sm m-auto" @submit.prevent="submitSignupForm">

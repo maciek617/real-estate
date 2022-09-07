@@ -12,7 +12,7 @@
       </div>
       <PriceChart :data="data"/>
       <p class="p-2 text-2xl text-blue-500 font-bold mt-10 scroll-auto">Compare info:</p>
-      <div class="w-full flex justify-between relative bg-white" v-if="housesToCompare.length">
+      <div class="w-full flex justify-between relative bg-white" v-if="housesToCompare.length > 0">
         <div v-for="(house, i) in housesToCompare" :key="house" class="compare_house text-sm font-bold p-2">
           <MainButton class="text-white bg-gray-900" @click="removeHouseFromComparison(i)">delete</MainButton>
           <p class="mt-2">{{ house.title }}</p>

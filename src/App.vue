@@ -47,7 +47,8 @@ export default {
 
     watchEffect(() => {
       if (route.path) {
-        scrollToTop()
+        scrollToTop();
+        store.state.showNav = false;
       }
     })
 

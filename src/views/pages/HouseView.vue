@@ -65,6 +65,10 @@
     <HouseStats @closeModal="showStatsModal = false" :data="data"/>
   </div>
   <LoaderView v-if="!data"/>
+  <ToastModal>
+    <h1 class="text-2xl font-bold drop-shadow">Success!</h1>
+    <p class="pr-4 sm:text-xl">Link has been copied. Now you can share with others.</p>
+  </ToastModal>
 </template>
 
 <script>
@@ -83,11 +87,14 @@ import BasicInfo from "@/components/house/BasicInfo";
 import AdditionalInfo from "@/components/house/AdditionalInfo";
 import ContactInfo from "@/components/house/ContactInfo";
 import DescriptionInfo from "@/components/house/DescriptionInfo";
+import ToastModal from "@/components/modals/ToastModal";
 import {defineAsyncComponent} from "vue";
+
 
 export default {
   name: "HouseView",
   components: {
+    ToastModal,
     BasicInfo, AdditionalInfo, MainButton, LoaderView, EditPostPass, MortageView, ImagesGalleryModal: defineAsyncComponent(() => import('@/components/modals/ImagesGalleryModal.vue')),
     HouseStats, ContactInfo, DescriptionInfo
   },
@@ -128,7 +135,9 @@ export default {
     const copyLink = () => {
       notToUpdate.value = !notToUpdate.value
       navigator.clipboard.writeText(window.location.href);
+      // console.log('hehe')
       store.dispatch('startTimer');
+      // console.log('lol')
     }
 
     watch(() => [showGallery.value, showStatsModal.value], ([newGallery, newStats]) => {

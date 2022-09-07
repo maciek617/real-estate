@@ -37,8 +37,7 @@
         <div class="bg-white mt-4 w-80 p-5 rounded-2xl shadow mx-2">
           <p class="font-bold pb-2">Connect</p>
           <p><i class="fa-solid fa-globe"></i><a :href="data.social_links[0].web" target="_blank"
-                                                 class="ml-2 underline text-blue-500">
-            Website</a></p>
+                                                 class="ml-2 underline text-blue-500">Website</a></p>
           <p><i class="fa-brands fa-facebook"></i><a :href="data.social_links[0].fb === 'Add Facebook' || '' ? 'https://www.facebook.com/' : data.social_links[0].fb" target="_blank"
                                                      class="ml-2 underline text-blue-500">Facebook</a></p>
           <p><i class="fa-brands fa-instagram"></i><a :href="data.social_links[0].ig === 'Add Instagram' || '' ? 'https://www.instagram.com/' : '123' + data.social_links[0].ig" target="_blank"

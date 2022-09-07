@@ -1,5 +1,5 @@
 <template>
-  <div class="flex absolute -top-6 left-2 text-gray-500" v-if="showTime && !isNaN(timeToUpdate)">
+  <div class="flex absolute -top-6 left-2 text-gray-500" v-if="showTime && !isNaN(timeToUpdate) && timeToUpdate">
     <div class="flex">
       <p class="w-32 font-bold text-black">Next update:</p>
       <div class="flex font-bold text-black">
@@ -13,8 +13,8 @@
       class="fa-solid fa-pen-to-square mr-2"></i>Edit
   </MainButton>
   <ToastModal :failed="temp_notToUpdate">
-    <h1 class="text-2xl font-bold drop-shadow">{{ temp_notToUpdate ? 'Ohh, no' : 'Success!' }}</h1>
-    <p class="pr-4 sm:text-xl">{{ temp_notToUpdate ? "You can't update your post more than once in 24 hours." : 'Link has been copied. Now you can share with others.' }}</p>
+    <h1 class="text-2xl font-bold drop-shadow">Ohh, no</h1>
+    <p class="pr-4 sm:text-xl">You can't update your post more than once in 24 hours.</p>
   </ToastModal>
 </template>
 
@@ -39,7 +39,7 @@ export default {
       const nowTime = new Date();
 
       if (props.dateToUpdate > nowTime) {
-        store.commit('setTimer');
+        store.dispatch('startTimer');
         temp_notToUpdate.value = true;
         showTime.value = true
         return;

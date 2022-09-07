@@ -75,6 +75,7 @@ import {auth} from "@/firebase/config";
 import updateProfileOnSignup from "@/composables/signupUpdate";
 import {doc, getDoc} from "firebase/firestore";
 import {db} from "@/firebase/config";
+import {useCookies} from "vue3-cookies";
 
 export default {
   name: "LoginView",
@@ -120,8 +121,6 @@ export default {
       }
     }
     const v$ = useVuelidate(rules, state)
-
-
     const signInWithGoogle = () => {
       const error = ref(null);
       const isPending = ref(false);
@@ -138,7 +137,9 @@ export default {
                 await updateProfileOnSignup(result.user.displayName, error, isPending)
               }
             }
-            checkIfUserWasLoggedIn()
+            checkIfUserWasLoggedIn();
+            const {cookies} = useCookies()
+            cookies.set('was_logged', 'true')
             router.push({name: 'find-house'})
           })
           .catch(err => {

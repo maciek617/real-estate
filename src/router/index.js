@@ -2,7 +2,6 @@ import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/pages/HomeView.vue'
 import {onAuthStateChanged} from 'firebase/auth'
 import {auth} from '@/firebase/config'
-
 const routes = [
     {
         path: '/',
@@ -142,7 +141,7 @@ const getCurrentUser = () => {
 }
 
 router.beforeEach(async (to, from, next) => {
-    if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (to.matched.some((record) => record?.meta.requiresAuth)) {
         if (await getCurrentUser()) {
             next();
         } else {
